@@ -40,4 +40,32 @@ public class OrderRepository {
         }
         return orders;
     }
+
+    public Order getOrderNumber (String orderNumber){
+        Order order = new Order();
+        String query = "select * from 주문 where 주문번호 = ?";
+
+        try (
+                Connection connection = DriverManager.getConnection(
+                        URL, USER, PASSWORD);
+                PreparedStatement ps = connection.prepareStatement(query)
+        ) {
+            System.out.println("데이터베이스 연결 성공");
+            ps.setString(1, orderNumber);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    order.setOrderID(rs.getString("주문번호"));
+                    order.setCustomerID(rs.getString("고객번호"));
+                    order.setEmployeeID(rs.getString("사원번호"));
+                    order.setOrderDate(rs.getDate("주문일").toLocalDate());
+                    order.setRequestDate(rs.getDate("요청일").toLocalDate());
+                    order.setShippingDate(rs.getDate("발송일").toLocalDate());
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return order;
+    }
 }
+

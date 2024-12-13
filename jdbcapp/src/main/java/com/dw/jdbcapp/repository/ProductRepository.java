@@ -40,4 +40,30 @@ public class ProductRepository {
         }
         return products;
     }
+
+    public Product getProductNumber(String productNumber){
+        Product product = new Product();
+        String query = "select * from 제품 where 제품번호 = ?";
+
+        try (
+                Connection connection = DriverManager.getConnection(
+                        URL, USER, PASSWORD);
+                PreparedStatement ps = connection.prepareStatement(query)
+        ) {
+            System.out.println("데이터베이스 연결 성공");
+            ps.setString(1, productNumber);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    product.setProductNumber(rs.getString("제품번호"));
+                    product.setProductName(rs.getString("제품명"));
+                    product.setPackUnit(rs.getString("포장단위"));
+                    product.setPrice(rs.getDouble("단가"));
+                    product.setInventory(rs.getInt("재고"));
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
 }
