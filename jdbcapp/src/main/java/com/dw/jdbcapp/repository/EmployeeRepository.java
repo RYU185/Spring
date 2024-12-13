@@ -78,6 +78,7 @@ public class EmployeeRepository {
         return employee;
     }
 
+
     public List<Map<String, Object>> getEmployeesWithDepartName(){
         String query = "select 이름, 입사일, 부서명 from 사원 "
                 + "inner join 부서 on 사원.부서번호 = 부서.부서번호";
@@ -103,18 +104,17 @@ public class EmployeeRepository {
         return employees;
     }
 
-    public Employee getEmployeeWithDepartPosition(String departNumber, String position) {
+    public Employee getEmployeeWithDepartPosition(String departmentNumber, String employeePosition) {
         Employee employee = new Employee();
-        String query = "select * from 사원 where 사원.부서번호 = ? and 사원.직위 = ?";
-
+        String query = "select * from 사원 where 부서번호 = ? and 직위 = ?";
         try (
                 Connection connection = DriverManager.getConnection(
                         URL, USER, PASSWORD);
                 PreparedStatement pstmt = connection.prepareStatement(query)
         ) {
             System.out.println("데이터베이스 연결 성공");
-            pstmt.setString(1, departNumber);
-            pstmt.setString(2, position);
+            pstmt.setString(1, departmentNumber);
+            pstmt.setString(2, employeePosition);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     employee.setEmployeeNumber(rs.getString("사원번호"));
@@ -135,6 +135,6 @@ public class EmployeeRepository {
         }catch (SQLException e) {
             e.printStackTrace();
         }
-        return employee;
+       return employee;
     }
 }

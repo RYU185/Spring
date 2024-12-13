@@ -45,8 +45,8 @@ public class EmployeeController {
     }
 
     // 12/13 과제
-    @GetMapping("/employees/{departmentNumber}/{position}")
-    public Employee getEmployeeWithDepartPosition(@PathVariable String departNumber, String position){
-        return employeeService.getEmployeeWithDepartPosition(departNumber,position);
+    @GetMapping("/employees/{departmentNumber}/{employeePosition}")
+    public Employee getEmployeeWithDepartPosition(@PathVariable String departmentNumber, String employeePosition){
+        return employeeService.getEmployeeWithDepartPosition(departmentNumber,employeePosition);
     }
 }
