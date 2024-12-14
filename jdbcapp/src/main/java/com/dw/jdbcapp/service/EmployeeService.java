@@ -48,7 +48,7 @@ public class EmployeeService {
         return employeeDepartmentDTOList;
     }
 
-    public Employee getEmployeeWithDepartPosition (String departmentNumber, String employeePosition){
+    public List<Employee> getEmployeeWithDepartPosition (String departmentNumber, String employeePosition){
         return employeeRepository.getEmployeeWithDepartPosition(departmentNumber,employeePosition);
     }
 }

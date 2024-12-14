@@ -15,4 +15,8 @@ public class CustomerService {
     public List<Customer> getAllCustomers(){
         return customerRepository.getAllCustomers();
     }
+    
+    public List<Customer> getCustomerWithPdNumId(String productNumber, String customerId){
+        return customerRepository.getCustomerWithPdNumId(productNumber,customerId);
+    }
 }

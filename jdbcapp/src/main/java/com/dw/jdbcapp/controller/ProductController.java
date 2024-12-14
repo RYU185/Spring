@@ -19,7 +19,8 @@ public class ProductController {
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
     }
-
+    
+    // 12/13 과제
     @GetMapping("/products/{productNumber}")
     public Product getProductNumber (@PathVariable String productNumber){
         return productService.getProductNumber(productNumber);

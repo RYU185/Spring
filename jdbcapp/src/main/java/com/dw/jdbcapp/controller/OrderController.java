@@ -18,7 +18,9 @@ public class OrderController {
     public List<Order> getAllOrders(){
         return orderService.getAllOrders();
     }
-
+    
+    
+    // 12/13 과제
     @GetMapping("/order/{orderNumber}")
     public Order getOrderNumber(@PathVariable String orderNumber){
         return orderService.getOrderNumber(orderNumber);

@@ -104,8 +104,8 @@ public class EmployeeRepository {
         return employees;
     }
 
-    public Employee getEmployeeWithDepartPosition(String departmentNumber, String employeePosition) {
-        Employee employee = new Employee();
+    public List<Employee> getEmployeeWithDepartPosition(String departmentNumber, String employeePosition) {
+        List<Employee> employees = new ArrayList<>();
         String query = "select * from 사원 where 부서번호 = ? and 직위 = ?";
         try (
                 Connection connection = DriverManager.getConnection(
@@ -117,6 +117,7 @@ public class EmployeeRepository {
             pstmt.setString(2, employeePosition);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
+                    Employee employee = new Employee();
                     employee.setEmployeeNumber(rs.getString("사원번호"));
                     employee.setEmployeeID(rs.getString("이름"));
                     employee.setEnglishName(rs.getString("영문이름"));
@@ -130,11 +131,12 @@ public class EmployeeRepository {
                     employee.setHomeCall(rs.getString("집전화"));
                     employee.setSuperiorNumber(rs.getString("상사번호"));
                     employee.setDepartmentNumber(rs.getString("부서번호"));
+                    employees.add(employee);
                 }
             }
         }catch (SQLException e) {
             e.printStackTrace();
         }
-       return employee;
+       return employees;
     }
 }
