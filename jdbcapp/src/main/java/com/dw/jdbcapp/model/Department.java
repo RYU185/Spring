@@ -27,7 +27,7 @@ public class Department {
     public void setDepartmentNumber(String departmentNumber) {
         this.departmentNumber = departmentNumber;
     }
-
+    
     @Override
     public String toString() {
         return "Department{" +

@@ -5,6 +5,7 @@ import com.dw.jdbcapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sound.sampled.Port;
@@ -23,6 +24,11 @@ public class ProductController {
     // 12/13 과제
     @GetMapping("/products/{productNumber}")
     public Product getProductNumber (@PathVariable String productNumber){
+        return productService.getProductNumber(productNumber);
+    }
+    
+    @GetMapping("/products?productNumber")
+    public Product getProductNumber_2(@RequestParam String productNumber){
         return productService.getProductNumber(productNumber);
     }
 }

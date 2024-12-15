@@ -24,4 +24,6 @@ public class CustomerController {
     public List<Customer> getCustomerWithPdNumId(@PathVariable String productNumber,@PathVariable String customerId){
         return customerService.getCustomerWithPdNumId(productNumber,customerId);
     }
+    
+    
 }

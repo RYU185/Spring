@@ -49,4 +49,9 @@ public class EmployeeController {
     public List <Employee> getEmployeeWithDepartPosition(@PathVariable String departmentNumber, @PathVariable String employeePosition){
         return employeeService.getEmployeeWithDepartPosition(departmentNumber,employeePosition);
     }
+    
+    @GetMapping("/employee?departmentNumber&employeePosition")
+    public List <Employee> getEmployeeWithDepartPosition_2(@RequestParam String departmentNumber, @RequestParam String employeePosition){
+        return employeeService.getEmployeeWithDepartPosition(departmentNumber,employeePosition);
+    }
 }
