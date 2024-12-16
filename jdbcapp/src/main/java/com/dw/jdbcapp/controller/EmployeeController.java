@@ -52,4 +52,10 @@ public class EmployeeController {
     public List <Employee> getEmployeeWithDepartPosition_2(@RequestParam String departmentNumber, @RequestParam String employeePosition){
         return employeeService.getEmployeeWithDepartPosition(departmentNumber,employeePosition);
     }
+
+    // #3.
+    @PostMapping("/post/employee")
+    public Employee saveEmployee (@RequestBody Employee employee){
+        return employeeService.saveEmployee(employee);
+    }
 }

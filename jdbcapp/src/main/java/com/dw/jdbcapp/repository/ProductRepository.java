@@ -66,4 +66,55 @@ public class ProductRepository {
         }
         return product;
     }
+
+
+    public Product saveProduct(Product product){
+        String query = "insert into 제품(제품번호, 제품명, 포장단위, 단가, 재고) "
+                +"values (?, ?, ?, ?, ?)";
+        try(
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, product.getProductNumber());
+            pstmt.setString(2, product.getProductName() );
+            pstmt.setString(3, product.getPackUnit() );
+            pstmt.setDouble(4, product.getPrice());
+            pstmt.setInt(5, product.getInventory());
+            pstmt.executeUpdate();
+            System.out.println("Insert 성공");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return product;
+    }
+
+    public Product updateProduct(Product product){
+        String query = "update 제품 set 제품명 = ?, 포장단위 = ?, 단가 = ?, 재고 = ? " +
+                "where 제품번호 = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, product.getProductName());
+            pstmt.setString(2, product.getPackUnit());
+            pstmt.setDouble(3, product.getPrice());
+            pstmt.setInt(4, product.getInventory());
+            pstmt.setString(5, product.getProductNumber());
+            pstmt.executeUpdate();
+            System.out.println("Update 성공");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return product;
+    }
+
+    public Product deleteProduct(Product productNumber){
+        String query = "delete from 제품 where 제품번호 = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, productNumber.getProductNumber());
+            pstmt.executeUpdate();
+            System.out.println("delete 성공");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return productNumber;
+    }
 }

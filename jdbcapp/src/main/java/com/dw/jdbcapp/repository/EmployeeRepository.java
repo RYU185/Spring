@@ -4,7 +4,7 @@ import com.dw.jdbcapp.model.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.*;
 
 @Repository
@@ -138,5 +138,32 @@ public class EmployeeRepository {
             e.printStackTrace();
         }
        return employees;
+    }
+
+    public Employee saveEmployee(Employee employee){
+        String query = "insert into 사원(사원번호, 이름, 영문이름, 직위, 성별, 생일, 입사일, 주소, 도시, 지역, 집전화, 상사번호, 부서번호) "
+                +"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try(
+                Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, employee.getEmployeeNumber());
+            pstmt.setString(2, employee.getEmployeeID());
+            pstmt.setString(3, employee.getEnglishName());
+            pstmt.setString(4, employee.getEmployeePosition());
+            pstmt.setString(5, employee.getGender());
+            pstmt.setDate(6, Date.valueOf(employee.getBirthday()));
+            pstmt.setDate(7, Date.valueOf(employee.getJoinDate()));
+            pstmt.setString(8, employee.getEmployeeAddress());
+            pstmt.setString(9, employee.getCity());
+            pstmt.setString(10, employee.getRegion());
+            pstmt.setString(11, employee.getHomeCall());
+            pstmt.setString(12, employee.getSuperiorNumber());
+            pstmt.setString(13, employee.getDepartmentNumber());
+            pstmt.executeUpdate();
+            System.out.println("Insert 성공");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return employee;
     }
 }

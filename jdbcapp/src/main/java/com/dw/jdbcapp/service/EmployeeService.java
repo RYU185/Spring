@@ -51,4 +51,8 @@ public class EmployeeService {
     public List<Employee> getEmployeeWithDepartPosition (String departmentNumber, String employeePosition){
         return employeeRepository.getEmployeeWithDepartPosition(departmentNumber,employeePosition);
     }
+
+    public Employee saveEmployee(Employee employee){
+        return employeeRepository.saveEmployee(employee);
+    }
 }

@@ -40,4 +40,6 @@ public class DepartmentController {
     public String deleteDepartment(@PathVariable String id) {
         return "부서번호 : " + departmentService.deleteDepartment(id) + " 가 삭제되었습니다";
     }
+
+
 }

@@ -29,4 +29,29 @@ public class ProductController {
     public Product getProductNumber_2(@RequestParam String productNumber){
         return productService.getProductNumber(productNumber);
     }
+
+    // 12/16 과제
+    // #1
+    @PostMapping("/post/product")
+    public Product saveProduct (@RequestBody Product product){
+        return productService.saveProduct(product);
+    }
+
+    // #2
+    @PostMapping("/post/productlist")
+    public List <Product> saveProductList(@RequestBody List<Product> productList ){
+        return productService.saveProductList(productList);
+    }
+
+    // #4
+    @PutMapping("/put/product")
+    public Product updateProduct (@RequestBody Product product){
+        return productService.updateProduct(product);
+    }
+
+    // #5.
+    @DeleteMapping("/delete/product/{productNumber}")
+    public Product deleteProduct (@RequestBody Product productNumber){
+        return productService.deleteProduct(productNumber);
+    }
 }
