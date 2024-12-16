@@ -8,30 +8,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class DepartmentController {
     @Autowired
     DepartmentService departmentService;
 
-    @GetMapping ("/find-all-department")
-    public List<Department> getAllDepartments (){
+    @GetMapping("/find-all-department")
+    public List<Department> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
 
     // 12/16
     // single data (저장할 데이터 객체 1개 처리용)
     @PostMapping("/post/department")
-    public Department saveDepartment(@RequestBody Department department){ // 메세지의 바디에서 꺼낸다
+    public Department saveDepartment(@RequestBody Department department) { // 메세지의 바디에서 꺼낸다
         return departmentService.saveDepartment(department);
     }
 
     // multiple data (저장할 데이터가 리스트인 경우)
     @PostMapping("/post/departmentlist")
-    public List<Department> saveDepartmentlist(@RequestBody List<Department> departmentList){ // 메세지의 바디에서 꺼낸다
+    public List<Department> saveDepartmentlist(@RequestBody List<Department> departmentList) { // 메세지의 바디에서 꺼낸다
         return departmentService.saveDepartmentlist(departmentList);
     }
 
     @PutMapping("/put/department")
-    public Department updateDepartment(@RequestBody Department department){
+    public Department updateDepartment(@RequestBody Department department) {
         return departmentService.updateDepartment(department);
+    }
+
+    @DeleteMapping("/delete/department/id/{id}")
+    public String deleteDepartment(@PathVariable String id) {
+        return "부서번호 : " + departmentService.deleteDepartment(id) + " 가 삭제되었습니다";
     }
 }
