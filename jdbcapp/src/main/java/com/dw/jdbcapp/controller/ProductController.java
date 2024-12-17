@@ -50,8 +50,9 @@ public class ProductController {
     }
 
     // #5.
-    @DeleteMapping("/delete/product/{productNumber}")
-    public Product deleteProduct (@RequestBody Product productNumber){
-        return productService.deleteProduct(productNumber);
+    @DeleteMapping("/delete/product")
+    public String deleteProduct(@RequestParam int id) {
+        return "제품번호: " + productService.deleteProduct(id) + " 삭제됨";
+
     }
 }

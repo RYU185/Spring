@@ -1,16 +1,19 @@
 package com.dw.jdbcapp.service;
 
 import com.dw.jdbcapp.model.Product;
-import com.dw.jdbcapp.repository.ProductRepository;
+import com.dw.jdbcapp.repository.iface.ProductRepository;
+import com.dw.jdbcapp.repository.jdbc.ProductJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
 import java.util.List;
 
 @Service
 public class ProductService {
     @Autowired
+    @Qualifier("productTemplateRepository") // 아래에 주입될 구현체를 지정해주는 어노테이션
+                                            // JDBC로 사용하고싶다면 productJdbcRepository로 수정
     ProductRepository productRepository;
 
     public List<Product> getAllProducts(){
@@ -36,7 +39,7 @@ public class ProductService {
         return productRepository.updateProduct(product);
     }
 
-    public Product deleteProduct(Product productNumber){
-        return productRepository.deleteProduct(productNumber);
+    public int deleteProduct(int id) {
+        return productRepository.deleteProduct(id);
     }
 }

@@ -2,7 +2,7 @@ package com.dw.jdbcapp.model;
 
 public class Product {
     String productName;
-    String productNumber;
+    int productNumber;
     String packUnit;
     double price;
     int inventory;
@@ -10,7 +10,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, String productNumber, String packUnit, double price, int inventory) {
+    public Product(String productName, int productNumber, String packUnit, double price, int inventory) {
         this.productName = productName;
         this.productNumber = productNumber;
         this.packUnit = packUnit;
@@ -26,11 +26,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public String getProductNumber() {
+    public int getProductNumber() {
         return productNumber;
     }
 
-    public void setProductNumber(String productNumber) {
+    public void setProductNumber(int productNumber) {
         this.productNumber = productNumber;
     }
 
@@ -62,10 +62,12 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "productName='" + productName + '\'' +
-                ", productNumber='" + productNumber + '\'' +
+                ", productNumber=" + productNumber +
                 ", packUnit='" + packUnit + '\'' +
                 ", price=" + price +
                 ", inventory=" + inventory +
                 '}';
     }
 }
+
+

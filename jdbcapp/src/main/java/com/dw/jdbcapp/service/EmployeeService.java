@@ -2,8 +2,10 @@ package com.dw.jdbcapp.service;
 
 import com.dw.jdbcapp.DTO.EmployeeDepartmentDTO;
 import com.dw.jdbcapp.model.Employee;
-import com.dw.jdbcapp.repository.EmployeeRepository;
+import com.dw.jdbcapp.repository.iface.EmployeeRepository;
+import com.dw.jdbcapp.repository.jdbc.EmployeeJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ import java.util.Map;
 @Service
 public class EmployeeService {
     @Autowired
+    @Qualifier("employeeTemplateRepository")
     EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees(){

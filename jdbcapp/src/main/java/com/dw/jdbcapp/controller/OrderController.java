@@ -29,4 +29,10 @@ public class OrderController {
     public Order getOrderNumber_2(@RequestParam String orderNumber){
         return  orderService.getOrderNumber(orderNumber);
     }
+
+    @GetMapping("/orders/{productNumber}/{customerId}")
+    public List<Order> getOrderByIdAndCustomer(@PathVariable int productNumber,
+                                               @PathVariable String customerId) {
+        return orderService.getOrderByIdAndCustomer(productNumber, customerId);
+    }
 }

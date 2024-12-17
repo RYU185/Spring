@@ -18,17 +18,4 @@ public class CustomerController {
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
-    
-    // 12/13 과제
-    @GetMapping("/customers/{productNumber}/{customerId}")
-    public List<Customer> getCustomerWithPdNumId(@PathVariable String productNumber,@PathVariable String customerId){
-        return customerService.getCustomerWithPdNumId(productNumber,customerId);
-    }
-
-    @GetMapping("/customer?productNumber&customerId")
-    public List<Customer> getCustomerWithPdNumId_2 (@RequestParam String productNumber, @RequestParam String customerId) {
-        return customerService.getCustomerWithPdNumId(productNumber, customerId);
-    }
-
-
 }
