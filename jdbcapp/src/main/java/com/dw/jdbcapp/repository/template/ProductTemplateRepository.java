@@ -1,8 +1,10 @@
 package com.dw.jdbcapp.repository.template;
 
+import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.iface.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -38,8 +40,14 @@ public class ProductTemplateRepository implements ProductRepository {
     @Override
     public Product getProductNumber(int productNumber) {
         String query = "select * from 제품 where 제품번호 = ?";
-        return jdbcTemplate.queryForObject(query,productRowMapper,productNumber);
-
+        try {
+            return jdbcTemplate.queryForObject(query, productRowMapper, productNumber);
+        }catch(EmptyResultDataAccessException e) {
+            // 자바에 정의된 예외를 사용자 정의 예외로 바꿈으로 인해
+            // CustomExceptionHandler의 코드를 단순하게 유지할 수 있다.
+            // ( 예외들을 비슷한 유형으로 그룹화 할 수 있음 )
+            throw new ResourceNotFoundException("조회된 제품번호가 올바르지 않습니다: "+ productNumber);
+        }
     }
 
     /* <jdbctemplate의 update 메서드>
