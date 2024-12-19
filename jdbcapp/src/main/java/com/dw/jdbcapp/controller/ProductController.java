@@ -25,14 +25,14 @@ public class ProductController {
     
     // 12/13 과제
     @GetMapping("/products/{productNumber}")
-    public ResponseEntity <Product> getProductNumber (@PathVariable String productNumber){
+    public ResponseEntity <Product> getProductNumber (@PathVariable int productNumber){
         return new ResponseEntity<>(
                 productService.getProductNumber(productNumber),
                 HttpStatus.ACCEPTED);
     }
     
     @GetMapping("/products?productNumber")
-    public ResponseEntity <Product> getProductNumber_2(@RequestParam String productNumber){
+    public ResponseEntity <Product> getProductNumber_2(@RequestParam int productNumber){
         return new ResponseEntity<>(
                 productService.getProductNumber(productNumber),
                 HttpStatus.ACCEPTED);

@@ -42,7 +42,7 @@ public class ProductJdbcRepository implements ProductRepository {
     }
 
     @Override
-    public Product getProductNumber(String productNumber){
+    public Product getProductNumber(int productNumber){
         Product product = new Product();
         String query = "select * from 제품 where 제품번호 = ?";
 
@@ -52,7 +52,7 @@ public class ProductJdbcRepository implements ProductRepository {
                 PreparedStatement ps = connection.prepareStatement(query)
         ) {
             System.out.println("데이터베이스 연결 성공");
-            ps.setString(1, productNumber);
+            ps.setInt(1, productNumber);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     product.setProductNumber(rs.getInt("제품번호"));

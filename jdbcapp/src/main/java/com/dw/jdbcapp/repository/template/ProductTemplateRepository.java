@@ -3,7 +3,6 @@ package com.dw.jdbcapp.repository.template;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.iface.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -37,7 +36,7 @@ public class ProductTemplateRepository implements ProductRepository {
     }
 
     @Override
-    public Product getProductNumber(String productNumber) {
+    public Product getProductNumber(int productNumber) {
         String query = "select * from 제품 where 제품번호 = ?";
         return jdbcTemplate.queryForObject(query,productRowMapper,productNumber);
 

@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.service;
 
+import com.dw.jdbcapp.exception.InvalidRequestException;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.iface.ProductRepository;
 import com.dw.jdbcapp.repository.jdbc.ProductJdbcRepository;
@@ -20,7 +21,11 @@ public class ProductService {
         return productRepository.getAllProducts();
     }
 
-    public Product getProductNumber(String productNumber){
+    public Product getProductNumber(int productNumber){
+        if(productNumber < 0 ){
+            throw new InvalidRequestException("존재하지 않는 제품번호입니다: "
+                    + productNumber);
+        }
         return productRepository.getProductNumber(productNumber);
     }
 
