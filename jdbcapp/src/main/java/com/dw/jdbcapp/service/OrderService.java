@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class OrderService {
     @Autowired
-    @Qualifier("OrderTemplateRepository")
+    @Qualifier("orderTemplateRepository")
     OrderRepository orderRepository;
 
     public List<Order> getAllOrders(){

@@ -3,6 +3,8 @@ package com.dw.jdbcapp.controller;
 import com.dw.jdbcapp.model.Department;
 import com.dw.jdbcapp.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,26 +16,34 @@ public class DepartmentController {
     DepartmentService departmentService;
 
     @GetMapping("/find-all-department")
-    public List<Department> getAllDepartments() {
-        return departmentService.getAllDepartments();
+    public ResponseEntity<List<Department>> getAllDepartments() {
+        return new ResponseEntity<>(
+                departmentService.getAllDepartments(),
+                HttpStatus.CREATED
+                );
     }
 
     // 12/16
     // single data (저장할 데이터 객체 1개 처리용)
     @PostMapping("/post/department")
-    public Department saveDepartment(@RequestBody Department department) { // 메세지의 바디에서 꺼낸다
-        return departmentService.saveDepartment(department);
+    public ResponseEntity <Department> saveDepartment(@RequestBody Department department) { // 메세지의 바디에서 꺼낸다
+        return new ResponseEntity<>(
+                departmentService.saveDepartment(department),
+                HttpStatus.CREATED);
     }
 
     // multiple data (저장할 데이터가 리스트인 경우)
     @PostMapping("/post/departmentlist")
-    public List<Department> saveDepartmentlist(@RequestBody List<Department> departmentList) { // 메세지의 바디에서 꺼낸다
-        return departmentService.saveDepartmentlist(departmentList);
+    public ResponseEntity<List<Department>> saveDepartmentlist(@RequestBody List<Department> departmentList) { // 메세지의 바디에서 꺼낸다
+        return new ResponseEntity<>(
+                departmentService.saveDepartmentlist(departmentList),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/put/department")
-    public Department updateDepartment(@RequestBody Department department) {
-        return departmentService.updateDepartment(department);
+    public ResponseEntity <Department> updateDepartment(@RequestBody Department department) {
+        return new ResponseEntity<>(departmentService.updateDepartment(department),
+                HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/department/id/{id}")

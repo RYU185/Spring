@@ -4,6 +4,8 @@ package com.dw.jdbcapp.controller;
 import com.dw.jdbcapp.model.Customer;
 import com.dw.jdbcapp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +17,10 @@ public class CustomerController {
     CustomerService customerService;
 
     @GetMapping("/find-all-customer")
-    public List<Customer> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<Customer>> getAllCustomers() {
+        return new ResponseEntity<>(
+                customerService.getAllCustomers(), // 첫번째 매개변수는 데이터
+                HttpStatus.OK); // 두번째는 http의 상태
+
     }
 }
