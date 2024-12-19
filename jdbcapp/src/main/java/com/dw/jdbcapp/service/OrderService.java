@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.service;
 
+import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Order;
 import com.dw.jdbcapp.repository.iface.OrderRepository;
 import com.dw.jdbcapp.repository.jdbc.OrderJdbcRepository;
@@ -23,6 +24,10 @@ public class OrderService {
     }
 
     public List<Order> getOrderByIdAndCustomer(int productNumber, String customerId) {
-        return orderRepository.getOrderByIdAndCustomer(productNumber, customerId);
+        List<Order> orders = orderRepository.getOrderByIdAndCustomer(productNumber, customerId);
+        if (orders.isEmpty()){
+            throw new ResourceNotFoundException("조회된 주문정보가 없습니다: "+productNumber+":"+customerId);
+        }
+        return orders;
     }
 }

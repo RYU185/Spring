@@ -68,6 +68,35 @@ public class ProductJdbcRepository implements ProductRepository {
         return product;
     }
 
+    // 12/19 제품을 조회할 때 단가를 매개변수로 전달하고 해당 단가보다 싼 제품을 조회
+    @Override
+    public List<Product> getProductPriceBelow(double price_below){
+        List<Product> products = new ArrayList<>();
+        String query = "select * from 제품 where 제품.단가 < ?";
+        try (
+                Connection connection = DriverManager.getConnection(
+                        URL, USER, PASSWORD);
+                PreparedStatement ps = connection.prepareStatement(query)
+        ) {
+            System.out.println("데이터베이스 연결 성공");
+            ps.setDouble(1, price_below);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    product.setProductNumber(rs.getInt("제품번호"));
+                    product.setProductName(rs.getString("제품명"));
+                    product.setPackUnit(rs.getString("포장단위"));
+                    product.setPrice(rs.getDouble("단가"));
+                    product.setInventory(rs.getInt("재고"));
+                    products.add(product);
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
     @Override
     public Product saveProduct(Product product){
         String query = "insert into 제품(제품번호, 제품명, 포장단위, 단가, 재고) "

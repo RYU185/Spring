@@ -43,7 +43,7 @@ public class OrderController {
                                                @PathVariable String customerId) {
         return new ResponseEntity<>(
                 orderService.getOrderByIdAndCustomer(productNumber,customerId),
-                HttpStatus.FOUND
+                HttpStatus.OK
         );
     }
 }

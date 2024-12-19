@@ -1,8 +1,11 @@
 package com.dw.jdbcapp.repository.template;
 
+import com.dw.jdbcapp.exception.InvalidRequestException;
+import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Employee;
 import com.dw.jdbcapp.repository.iface.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -47,8 +50,12 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
 
     @Override
     public Employee getEmployeeById(String id) {
-        String query = "select * from 사원 where 사원번호";
-        return jdbcTemplate.queryForObject(query,employeeRowMapper,id);
+        String query = "select * from 사원 where 사원번호 = ?";
+        try {
+            return jdbcTemplate.queryForObject(query, employeeRowMapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new InvalidRequestException("사원번호가 올바르지 않습니다: " + id);
+        }
     }
 
     @Override
@@ -67,42 +74,46 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
 //                    }
 //                };
 //                return jdbcTemplate.query(query,mapper);
-
-         // 이게 요즘 스타일!
+        // 이게 요즘 스타일!
         return jdbcTemplate.query(query, (rs, rowNum) -> {
             Map<String, Object> employee = new HashMap<>();
             employee.put("이름", rs.getString("이름"));
-            employee.put("입사일",rs.getString("입사일"));
+            employee.put("입사일", rs.getString("입사일"));
             employee.put("부서명", rs.getString("부서명"));
             return employee;
         });
-    }
+
+  }
+
 
     @Override
     public List<Employee> getEmployeeWithDepartPosition(String departmentNumber, String employeePosition) {
-        String query = "select 이름, 입사일, 부서명 from 사원 "
-                + "inner join 부서 on 사원.부서번호 = 부서.부서번호";
-        return jdbcTemplate.query(query, employeeRowMapper, departmentNumber, employeePosition);
+        String query = "select 사원.이름, 사원.입사일, 부서.부서명 from 사원 "
+                + "inner join 부서 on 사원.부서번호 = 부서.부서번호 " +
+                "where 사원.부서번호 = ? and 사원.직위 = ?";
+            return jdbcTemplate.query(query, employeeRowMapper, departmentNumber, employeePosition);
     }
 
     @Override
     public Employee saveEmployee(Employee employee) {
         String query = "insert into 사원(사원번호, 이름, 영문이름, 직위, 성별, 생일, 입사일, 주소, 도시, 지역, 집전화, 상사번호, 부서번호) "
-                +"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                jdbcTemplate.update(query,
-                        employee.getEmployeeNumber(),
-                        employee.getEmployeeID(),
-                        employee.getEnglishName(),
-                        employee.getEmployeePosition(),
-                        employee.getGender(),
-                        employee.getJoinDate(),
-                        employee.getEmployeeAddress(),
-                        employee.getCity(),
-                        employee.getRegion(),
-                        employee.getHomeCall(),
-                        employee.getSuperiorNumber(),
-                        employee.getDepartmentNumber()
-                        );
-                return employee;
+                + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            jdbcTemplate.update(query,
+                    employee.getEmployeeNumber(),
+                    employee.getEmployeeID(),
+                    employee.getEnglishName(),
+                    employee.getEmployeePosition(),
+                    employee.getGender(),
+                    employee.getJoinDate(),
+                    employee.getEmployeeAddress(),
+                    employee.getCity(),
+                    employee.getRegion(),
+                    employee.getHomeCall(),
+                    employee.getSuperiorNumber(),
+                    employee.getDepartmentNumber()
+            );
+            return employee;
+        }
     }
-}
+

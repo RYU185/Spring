@@ -1,11 +1,14 @@
 package com.dw.jdbcapp.service;
 
 import com.dw.jdbcapp.DTO.EmployeeDepartmentDTO;
+import com.dw.jdbcapp.exception.InvalidRequestException;
+import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Employee;
 import com.dw.jdbcapp.repository.iface.EmployeeRepository;
 import com.dw.jdbcapp.repository.jdbc.EmployeeJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -51,8 +54,12 @@ public class EmployeeService {
         return employeeDepartmentDTOList;
     }
 
-    public List<Employee> getEmployeeWithDepartPosition (String departmentNumber, String employeePosition){
-        return employeeRepository.getEmployeeWithDepartPosition(departmentNumber,employeePosition);
+    public List<Employee> getEmployeeWithDepartPosition (String departmentNumber, String employeePosition) {
+        List<Employee> employees = employeeRepository.getEmployeeWithDepartPosition(departmentNumber, employeePosition);
+        if (employees.isEmpty()){
+            throw new ResourceNotFoundException("존재하지 않는 사원정보입니다: "+departmentNumber+":"+employeePosition);
+        }
+            return employees;
     }
 
     public Employee saveEmployee(Employee employee){

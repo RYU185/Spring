@@ -42,13 +42,21 @@ public class ProductTemplateRepository implements ProductRepository {
         String query = "select * from 제품 where 제품번호 = ?";
         try {
             return jdbcTemplate.queryForObject(query, productRowMapper, productNumber);
-        }catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             // 자바에 정의된 예외를 사용자 정의 예외로 바꿈으로 인해
             // CustomExceptionHandler의 코드를 단순하게 유지할 수 있다.
             // ( 예외들을 비슷한 유형으로 그룹화 할 수 있음 )
-            throw new ResourceNotFoundException("조회된 제품번호가 올바르지 않습니다: "+ productNumber);
+            throw new ResourceNotFoundException("조회된 제품번호가 올바르지 않습니다: " + productNumber);
         }
     }
+
+    // 12/19 제품을 조회할 때 단가를 매개변수로 전달하고 해당 단가보다 싼 제품을 조회
+    @Override
+    public List<Product> getProductPriceBelow(double price_below) {
+        String query = "select * from 제품 where 제품.단가 < ?";
+        return jdbcTemplate.query(query, productRowMapper, price_below);
+    }
+
 
     /* <jdbctemplate의 update 메서드>
     1. update(String query, 매개변수1, 매개변수2,...)

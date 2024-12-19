@@ -71,4 +71,11 @@ public class ProductController {
                 "제품번호: " + productService.deleteProduct(id) + " 삭제됨",
                 HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getProductPriceBelow(@RequestParam double price_below){
+        return new ResponseEntity<>(
+                productService.getProductPriceBelow(price_below),
+                HttpStatus.OK);
+    }
 }
