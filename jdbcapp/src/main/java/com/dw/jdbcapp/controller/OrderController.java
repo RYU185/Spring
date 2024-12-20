@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.controller;
 
+import com.dw.jdbcapp.DTO.OrderRequestDTO;
 import com.dw.jdbcapp.model.Order;
 import com.dw.jdbcapp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,15 @@ public class OrderController {
         return new ResponseEntity<>(
                 orderService.getOrderByIdAndCustomer(productNumber,customerId),
                 HttpStatus.OK
+        );
+    }
+
+    @PostMapping("/orders")
+    public ResponseEntity<OrderRequestDTO> saveOrder(
+            @RequestBody OrderRequestDTO orderRequestDTO) {
+        return new ResponseEntity<>(
+                orderService.saveOrder(orderRequestDTO),
+                HttpStatus.CREATED
         );
     }
 }

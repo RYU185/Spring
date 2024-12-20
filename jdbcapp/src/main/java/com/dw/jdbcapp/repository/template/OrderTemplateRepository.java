@@ -56,4 +56,16 @@ public class OrderTemplateRepository implements OrderRepository {
             return jdbcTemplate.query(query, orderRowMapper, productNumber, customerId);
 
     }
+
+    @Override
+    public int saveOrders(Order order) {
+        String query = "insert into 주문(주문번호, 고객번호, 사원번호, 주문일, 요청일) " +
+                "values(?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(query,
+                order.getOrderID(),
+                order.getCustomerID(),
+                order.getEmployeeID(),
+                order.getOrderDate().toString(),
+                order.getRequestDate().toString());
+    }
 }
