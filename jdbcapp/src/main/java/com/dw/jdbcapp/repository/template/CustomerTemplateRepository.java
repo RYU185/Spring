@@ -50,11 +50,14 @@ public class CustomerTemplateRepository implements CustomerRepository {
         return jdbcTemplate.query(query, customerRowMapper);
     }
 
+    // 12/20 과제2. 마일리지등급을 매개변수로 해당 마일리지등급을 가진 고객들을 조회하는 API
     @Override
     public List<Customer> getCustomersByMileageGrade(String gradeName) {
         String query = "select 고객.*, 마일리지등급.등급명 from 고객 " +
                 "inner join 마일리지등급 " +
-                "on 고객.마일리지 > 마일리지등급.하한마일리지 and 고객.마일리지 <= 마일리지등급.상한마일리지 ";
+                "on 고객.마일리지 >= 마일리지등급.하한마일리지 " +
+                "and 고객.마일리지 < 마일리지등급.상한마일리지 " +
+                "where 마일리지등급.등급명 = ?";
         return jdbcTemplate.query(query, customerRowMapper, gradeName);
     }
 }

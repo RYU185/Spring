@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -71,5 +72,14 @@ public class EmployeeController {
                 employeeService.saveEmployee(employee),
                 HttpStatus.CREATED);
 
+    }
+
+    // 12/20 과제 3-1 입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
+    @GetMapping("/employee/joinDate/{joinDate}")
+    public ResponseEntity<List<Employee>> getEmployeesByHireDate(@PathVariable String hireDate){
+        return new ResponseEntity<>(
+                employeeService.getEmployeesByHireDate(hireDate),
+                HttpStatus.OK
+        );
     }
 }

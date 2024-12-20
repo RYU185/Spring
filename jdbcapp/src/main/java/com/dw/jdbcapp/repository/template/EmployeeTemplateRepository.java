@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,5 +116,14 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
             );
             return employee;
         }
+
+
+    // 과제 3-1  입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
+    @Override
+    public List<Employee> getEmployeesByHireDate(String hireDate) {
+        String query = "select * from 사원 " +
+                "where 사원.입사일 > ?";
+        return jdbcTemplate.query(query,employeeRowMapper,hireDate);
     }
+}
 

@@ -32,8 +32,9 @@ public class CustomerController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/customers/grade/{grade}")
-    public ResponseEntity<List<Customer>> getCustomersByMileageGrade(String gradeName){
+    //12.20 과제2  마일리지등급을 매개변수로 해당 마일리지등급을 가진 고객들을 조회하는 API
+    @GetMapping("/customers/grade/{gradeName}")
+    public ResponseEntity<List<Customer>> getCustomersByMileageGrade(@PathVariable String gradeName){
         return new ResponseEntity<>(
                 customerService.getCustomersByMileageGrade(gradeName),
                 HttpStatus.OK);

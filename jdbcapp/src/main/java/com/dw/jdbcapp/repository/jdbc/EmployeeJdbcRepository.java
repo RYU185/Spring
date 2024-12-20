@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 @Repository
@@ -170,5 +171,11 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
             e.printStackTrace();
         }
         return employee;
+    }
+
+    // 과제 3-1  입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
+    @Override
+    public List<Employee> getEmployeesByHireDate(String hireDate) {
+        return null;
     }
 }

@@ -65,4 +65,9 @@ public class EmployeeService {
     public Employee saveEmployee(Employee employee){
         return employeeRepository.saveEmployee(employee);
     }
+
+    // 과제 3-1  입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
+    public List<Employee> getEmployeesByHireDate(String hireDate){
+        return employeeRepository.getEmployeesByHireDate(hireDate);
+    }
 }
