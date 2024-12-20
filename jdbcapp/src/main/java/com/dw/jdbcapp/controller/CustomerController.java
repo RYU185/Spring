@@ -33,9 +33,9 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/grade/{grade}")
-    public ResponseEntity<List<Customer>> getCustomersByMileageGrade(String grade){
+    public ResponseEntity<List<Customer>> getCustomersByMileageGrade(String gradeName){
         return new ResponseEntity<>(
-                customerService.getCustomersByMileageGrade(grade),
+                customerService.getCustomersByMileageGrade(gradeName),
                 HttpStatus.OK);
     }
 }

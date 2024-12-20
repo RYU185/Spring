@@ -51,10 +51,11 @@ public class CustomerTemplateRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> getCustomersByMileageGrade(String grade) {
-        String query = "select * from 고객 " +
-                "inner join 마일리지등급 "
-        return List.of();
+    public List<Customer> getCustomersByMileageGrade(String gradeName) {
+        String query = "select 고객.*, 마일리지등급.등급명 from 고객 " +
+                "inner join 마일리지등급 " +
+                "on 고객.마일리지 > 마일리지등급.하한마일리지 and 고객.마일리지 <= 마일리지등급.상한마일리지 ";
+        return jdbcTemplate.query(query, customerRowMapper, gradeName);
     }
 }
 

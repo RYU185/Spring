@@ -51,7 +51,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     // 12.20 과제.  평균마일리지보다 큰 마일리지를 가진 고객들을 조회하는 API
     @Override
-    public List<Customer> getCustomersByMileageGrade(String grade) {
+    public List<Customer> getCustomersByMileageGrade(String gradeName) {
         return List.of();
     }
 }
