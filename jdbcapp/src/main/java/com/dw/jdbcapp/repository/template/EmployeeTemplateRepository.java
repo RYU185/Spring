@@ -118,12 +118,22 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
         }
 
 
-    // 과제 3-1  입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
+    // 과제 3-1. 입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
+    // 과제 3-2. hiredate를 0으로 입력하면 가장 최근 입사한 사원의 정보를 조회하시오.
     @Override
-    public List<Employee> getEmployeesByHireDate(String hireDate) {
+    public List<Employee> getEmployeesByHireDate(LocalDate hireDate) {
         String query = "select * from 사원 " +
-                "where 사원.입사일 > ?";
-        return jdbcTemplate.query(query,employeeRowMapper,hireDate);
+                        "where 사원.입사일 > ?";
+            return jdbcTemplate.query(query, employeeRowMapper, hireDate);
+    }
+
+    // 3-3  hiredate가 0이 아니고 LocalDate형태도 아니면
+    // InvalidRequestException 예외처리 하시오
+    @Override
+    public List<Employee> getRecentEmployee(){
+            String query = "select * from 사원 " +
+                    "where 입사일 = (select 입사일 from 사원 order by 입사일 desc limit 1)";
+            return jdbcTemplate.query(query, employeeRowMapper);
     }
 }
 

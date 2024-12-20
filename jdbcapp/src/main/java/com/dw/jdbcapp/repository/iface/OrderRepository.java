@@ -16,5 +16,5 @@ public interface OrderRepository {
     // 행의 '갯수'이기 때문에
     int saveOrders(Order order);
 
-
+    int updateOrderWithShippingDate(String id, String date);
 }

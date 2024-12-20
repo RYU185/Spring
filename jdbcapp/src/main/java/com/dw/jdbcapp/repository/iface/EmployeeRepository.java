@@ -19,5 +19,7 @@ public interface EmployeeRepository {
     Employee saveEmployee(Employee employee);
 
     // 과제 3-1  입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
-   List <Employee> getEmployeesByHireDate(String hireDate);
+   List <Employee> getEmployeesByHireDate(LocalDate hireDate);
+
+   List<Employee> getRecentEmployee();
 }

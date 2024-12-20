@@ -56,4 +56,13 @@ public class OrderController {
                 HttpStatus.CREATED
         );
     }
+
+    @PutMapping("/orders/update")
+    public ResponseEntity<Integer> updateOrderWithShippingDate (
+            @RequestBody String id,@RequestBody String date){
+        return new ResponseEntity<>(
+                orderService.updateOrderWithShippingDate(id,date),
+                HttpStatus.CREATED
+        );
+    }
 }

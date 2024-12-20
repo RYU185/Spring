@@ -6,7 +6,6 @@ import com.dw.jdbcapp.model.Order;
 import com.dw.jdbcapp.model.OrderDetail;
 import com.dw.jdbcapp.repository.iface.OrderDetailRepository;
 import com.dw.jdbcapp.repository.iface.OrderRepository;
-import com.dw.jdbcapp.repository.jdbc.OrderJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -46,5 +45,9 @@ public class OrderService {
             orderDetailRepository.saveOrderDetail(data);
         }
         return orderRequestDTO;
+    }
+
+    public int updateOrderWithShippingDate(String id, String date) {
+        return orderRepository.updateOrderWithShippingDate(id, date);
     }
 }

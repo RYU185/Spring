@@ -68,4 +68,12 @@ public class OrderTemplateRepository implements OrderRepository {
                 order.getOrderDate().toString(),
                 order.getRequestDate().toString());
     }
+
+    // 12/20 과제 4.주문번호와 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
+    @Override
+    public int updateOrderWithShippingDate(String id, String date) {
+        String query = "update 제품 set 발송일 = ? " +
+                "where id = ?";
+        return jdbcTemplate.update(query,id,date);
+    }
 }

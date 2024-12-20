@@ -175,7 +175,12 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
 
     // 과제 3-1  입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
     @Override
-    public List<Employee> getEmployeesByHireDate(String hireDate) {
+    public List<Employee> getEmployeesByHireDate(LocalDate hireDate) {
         return null;
+    }
+
+    @Override
+    public List<Employee> getRecentEmployee() {
+        return List.of();
     }
 }

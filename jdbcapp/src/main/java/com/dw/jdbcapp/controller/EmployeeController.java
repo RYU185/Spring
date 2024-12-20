@@ -75,7 +75,7 @@ public class EmployeeController {
     }
 
     // 12/20 과제 3-1 입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
-    @GetMapping("/employee/joinDate/{joinDate}")
+    @GetMapping("/employee/hireDate/{hireDate}")
     public ResponseEntity<List<Employee>> getEmployeesByHireDate(@PathVariable String hireDate){
         return new ResponseEntity<>(
                 employeeService.getEmployeesByHireDate(hireDate),

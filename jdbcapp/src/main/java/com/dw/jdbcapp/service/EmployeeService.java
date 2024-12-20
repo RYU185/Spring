@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,16 @@ public class EmployeeService {
     }
 
     // 과제 3-1  입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
-    public List<Employee> getEmployeesByHireDate(String hireDate){
-        return employeeRepository.getEmployeesByHireDate(hireDate);
+    // 과제 3-2. hiredate를 0으로 입력하면 가장 최근 입사한 사원의 정보를 조회하시오.
+    public List<Employee> getEmployeesByHireDate(String hireDate) {
+        try {
+            if (hireDate.equals("0")) {
+                return employeeRepository.getRecentEmployee();
+            } else {
+                return employeeRepository.getEmployeesByHireDate(LocalDate.parse(hireDate));
+            }
+        }catch (DateTimeParseException e){
+            throw new InvalidRequestException("올바른 사원정보가 아닙니다");
+        }
     }
 }
