@@ -23,4 +23,19 @@ public class CustomerController {
                 HttpStatus.OK); // 두번째는 http의 상태
 
     }
+
+    // 12.20 과제.1  평균마일리지보다 큰 마일리지를 가진 고객들을 조회하는 API
+    @GetMapping("/customers/high-mile-than-avg")
+    public ResponseEntity <List<Customer>> getCustomersWithHighMileThanAvg(){
+        return new ResponseEntity<>(
+                customerService.getCustomersWithHighMileThanAvg(),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/customers/grade/{grade}")
+    public ResponseEntity<List<Customer>> getCustomersByMileageGrade(String grade){
+        return new ResponseEntity<>(
+                customerService.getCustomersByMileageGrade(grade),
+                HttpStatus.OK);
+    }
 }

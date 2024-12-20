@@ -18,4 +18,13 @@ public class CustomerService {
     public List<Customer> getAllCustomers(){
         return customerRepository.getAllCustomers();
     }
+
+    // 12.20 과제. 평균마일리지보다 큰 마일리지를 가진 고객들을 조회하는 API
+    public List<Customer> getCustomersWithHighMileThanAvg(){
+        return customerRepository.getCustomersWithHighMileThanAvg();
+    }
+
+    public List<Customer> getCustomersByMileageGrade(String grade){
+        return customerRepository.getCustomersByMileageGrade(grade);
+    }
 }
