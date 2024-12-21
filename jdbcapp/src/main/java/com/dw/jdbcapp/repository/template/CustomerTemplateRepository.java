@@ -60,5 +60,7 @@ public class CustomerTemplateRepository implements CustomerRepository {
                 "where 마일리지등급.등급명 = ?";
         return jdbcTemplate.query(query, customerRowMapper, gradeName);
     }
+    
+    //
 }
 

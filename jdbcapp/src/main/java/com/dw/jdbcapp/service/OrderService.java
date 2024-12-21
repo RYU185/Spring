@@ -46,8 +46,8 @@ public class OrderService {
         }
         return orderRequestDTO;
     }
-
-    public int updateOrderWithShippingDate(String id, String date) {
+    
+    public Order updateOrderWithShippingDate(String id, String date) {
         return orderRepository.updateOrderWithShippingDate(id, date);
     }
 }

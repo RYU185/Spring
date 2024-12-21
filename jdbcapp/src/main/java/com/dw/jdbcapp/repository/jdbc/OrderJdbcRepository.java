@@ -106,10 +106,10 @@ public class OrderJdbcRepository implements OrderRepository {
     public int saveOrders(Order order) {
         return 0;
     }
-
+    
     @Override
-    public int updateOrderWithShippingDate(String id, String date) {
-        return 0;
+    public Order updateOrderWithShippingDate(String id, String date) {
+        return null;
     }
 }
 
