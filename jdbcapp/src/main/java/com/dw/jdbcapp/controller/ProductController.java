@@ -78,4 +78,12 @@ public class ProductController {
                 productService.getProductPriceBelow(price_below),
                 HttpStatus.OK);
     }
+    
+    @PutMapping("/products/update")
+    public ResponseEntity<String> updateProductWithStock(int id, int stock){
+        return new ResponseEntity<>(
+                productService.updateProductWithStock(id, stock),
+                HttpStatus.OK
+        );
+    }
 }

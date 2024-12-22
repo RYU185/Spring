@@ -16,4 +16,6 @@ public interface ProductRepository {
     int deleteProduct(int productNumber);
 
     List<Product> getProductPriceBelow(double price_below);
+    
+    String updateProductWithStock(int id, int stock);
 }

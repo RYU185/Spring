@@ -58,4 +58,8 @@ public class ProductService {
         }
         return products;
     }
+    
+    public String updateProductWithStock(int id, int stock) {
+        return productRepository.updateProductWithStock(id, stock);
+    }
 }

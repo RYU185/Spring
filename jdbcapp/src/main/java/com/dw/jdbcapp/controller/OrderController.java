@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -63,5 +64,21 @@ public class OrderController {
             @RequestBody String id, @RequestBody String date){
     return new ResponseEntity<>(orderService.updateOrderWithShippingDate(id,date),
             HttpStatus.OK);
+    }
+    
+    // 5. 도시별로 주문금액합 결과를 내림차순 정렬하여 조회하는 API
+    @GetMapping("/orders/city/orderamount/{limit}")
+    public ResponseEntity<List<Map<String,Double>>> getTopCitiesByTotalOrderAmount(@PathVariable int limit){
+        return new ResponseEntity<>(
+                orderService.getTopCitiesByTotalOrderAmount(limit),
+                HttpStatus.OK);
+    }
+    
+    @GetMapping("/orders/ordercount/year/{city}")
+    public ResponseEntity <List<Map<String, Double>>> getOrderCountByYearForCity(@PathVariable String city){
+        return new ResponseEntity<>(
+                orderService.getOrderCountByYearForCity(city),
+                HttpStatus.OK
+        );
     }
 }

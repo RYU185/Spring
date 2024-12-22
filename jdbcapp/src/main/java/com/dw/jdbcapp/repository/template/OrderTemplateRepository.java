@@ -12,13 +12,15 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class OrderTemplateRepository implements OrderRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
-
+    
     private final RowMapper<Order> orderRowMapper = new RowMapper<Order>() {
         @Override
         public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -32,31 +34,31 @@ public class OrderTemplateRepository implements OrderRepository {
             return order;
         }
     };
-
+    
     @Override
     public List<Order> getAllOrders() {
         String query = "select * from 주문";
         return jdbcTemplate.query(query, orderRowMapper);
     }
-
+    
     @Override
     public Order getOrderNumber(String orderNumber) {
         String query = "select * from 주문 where 주문번호 = ?";
         try {
             return jdbcTemplate.queryForObject(query, orderRowMapper, orderNumber);
-        }catch (EmptyResultDataAccessException e){
-           throw new InvalidRequestException("주문번호가 올바르지 않습니다: "+orderNumber);
+        } catch (EmptyResultDataAccessException e) {
+            throw new InvalidRequestException("주문번호가 올바르지 않습니다: " + orderNumber);
         }
     }
-
+    
     @Override
     public List<Order> getOrderByIdAndCustomer(int productNumber, String customerId) {
         String query = "select * from 주문 where 고객번호 = ? and" +
                 " 주문번호 in (select 주문번호 from 주문세부 where 제품번호 = ?)";
-            return jdbcTemplate.query(query, orderRowMapper, productNumber, customerId);
-
+        return jdbcTemplate.query(query, orderRowMapper, productNumber, customerId);
+        
     }
-
+    
     @Override
     public int saveOrders(Order order) {
         String query = "insert into 주문(주문번호, 고객번호, 사원번호, 주문일, 요청일) " +
@@ -68,7 +70,7 @@ public class OrderTemplateRepository implements OrderRepository {
                 order.getOrderDate().toString(),
                 order.getRequestDate().toString());
     }
-
+    
     
     // 12/20 과제 4.주문번호와 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
     
@@ -76,10 +78,47 @@ public class OrderTemplateRepository implements OrderRepository {
     public Order updateOrderWithShippingDate(String id, String date) {
         String query = "update 주문 set 주문번호 = ? " +
                 "where 발송일 = ?";
-        jdbcTemplate.update(query, id., date);
-        return
+        jdbcTemplate.update(query, id, date);
+        return null;
     }
     
+    
+    
+    // 5. 도시별로 주문금액합 결과를 내림차순 정렬하여 조회하는 API
+    @Override
+    public List<Map<String, Double>> getTopCitiesByTotalOrderAmount(int limit) {
+        String query = "select 고객.도시, sum(주문세부.주문수량*주문세부.단가) as 주문금액합 " +
+                " from 주문세부 " +
+                "join 주문 on 주문세부.주문번호 = 주문.주문번호 " +
+                "join 고객 on 고객.고객번호 = 주문.고객번호 " +
+                "group by 고객.도시 " +
+                "order by 주문금액합 desc " +
+                "limit ?";
+        return jdbcTemplate.query(query, (rs, rowNum) -> {
+            Map<String, Double> orderByCity = new HashMap<>();
+            orderByCity.put("도시", rs.getDouble("도시"));  // 왜 Double???
+            orderByCity.put("주문금액합", rs.getDouble("주문금액합"));
+            return orderByCity;
+        });
     }
+    
+    // 6. 도시를 매개변수로 해당 도시의 년도별 주문건수를 조회하는 API
+    @Override
+    public List<Map<String, Double>> getOrderCountByYearForCity(String city) {
+        String query = "select year(주문일) as 주문연도, count(*) as 주문건수 from 주문 " +
+                "join 고객 on 고객.고객번호 = 주문.고객번호 " +
+                "where 고객.도시 = ? " +
+                "group by year(주문일) " +
+                "order by 주문연도";
+        return jdbcTemplate.query(query, (rs, rowNum) -> {
+            Map<String, Double> order = new HashMap<>();
+            order.put("주문연도", rs.getDouble("주문연도")); // ?왜 Double?
+            order.put("주문건수", rs.getDouble("주문건수"));
+            return order;
+        });
+    }
+    
     
 }
+
+

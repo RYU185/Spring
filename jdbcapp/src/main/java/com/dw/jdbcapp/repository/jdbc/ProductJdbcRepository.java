@@ -96,7 +96,12 @@ public class ProductJdbcRepository implements ProductRepository {
         }
         return products;
     }
-
+    
+    @Override
+    public String updateProductWithStock(int id, int stock) {
+        return "";
+    }
+    
     @Override
     public Product saveProduct(Product product){
         String query = "insert into 제품(제품번호, 제품명, 포장단위, 단가, 재고) "

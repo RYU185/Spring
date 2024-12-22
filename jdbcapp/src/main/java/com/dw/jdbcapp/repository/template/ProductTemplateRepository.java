@@ -56,6 +56,8 @@ public class ProductTemplateRepository implements ProductRepository {
         String query = "select * from 제품 where 제품.단가 < ?";
         return jdbcTemplate.query(query, productRowMapper, price_below);
     }
+    
+
 
 
     /* <jdbctemplate의 update 메서드>
@@ -94,5 +96,16 @@ public class ProductTemplateRepository implements ProductRepository {
         String query = "delete from 제품 where 제품번호 = ?";
         jdbcTemplate.update(query, id);
         return id;
+    }
+    
+    // 8. 제품번호와 재고를 매개변수로 해당 제품의 재고를 수정하는 api
+    // ???
+    @Override
+    public String updateProductWithStock(int id, int stock) {
+        String query = "update 제품 set 제품명 = ? " +
+                "where 제품번호 = ?";
+        jdbcTemplate.update(query,
+                )
+        return ;
     }
 }

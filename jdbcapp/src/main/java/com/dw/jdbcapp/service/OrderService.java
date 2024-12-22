@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
@@ -49,5 +50,13 @@ public class OrderService {
     
     public Order updateOrderWithShippingDate(String id, String date) {
         return orderRepository.updateOrderWithShippingDate(id, date);
+    }
+    
+    public List<Map<String,Double>> getTopCitiesByTotalOrderAmount(int limit){
+        return orderRepository.getTopCitiesByTotalOrderAmount(limit);
+    }
+    
+    public List<Map<String,Double>> getOrderCountByYearForCity(String city){
+        return orderRepository.getOrderCountByYearForCity(city);
     }
 }
