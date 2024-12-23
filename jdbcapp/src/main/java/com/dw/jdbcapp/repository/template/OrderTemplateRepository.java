@@ -1,7 +1,6 @@
 package com.dw.jdbcapp.repository.template;
 
 import com.dw.jdbcapp.exception.InvalidRequestException;
-import com.dw.jdbcapp.model.Customer;
 import com.dw.jdbcapp.model.Order;
 import com.dw.jdbcapp.repository.iface.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,11 +34,12 @@ public class OrderTemplateRepository implements OrderRepository {
         }
     };
 
+
     public final RowMapper<Map<String, Double>> orderRowMapper_2 = new RowMapper<Order>() {
         @Override
         public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
             Order order = new Order();
-            
+
         }
 
     };
@@ -68,6 +67,7 @@ public class OrderTemplateRepository implements OrderRepository {
         return jdbcTemplate.query(query, orderRowMapper, productNumber, customerId);
 
     }
+
 
     @Override
     public int saveOrders(Order order) {
