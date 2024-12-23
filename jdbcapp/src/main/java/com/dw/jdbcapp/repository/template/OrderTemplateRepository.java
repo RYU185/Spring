@@ -37,9 +37,19 @@ public class OrderTemplateRepository implements OrderRepository {
     private final RowMapper<Map<String, Double>> orderRowMapper2 = new RowMapper<Map<String, Double>>() {
         @Override
         public Map<String, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Map<String, Double> stringDoubleMap = new HashMap<>();
-            stringDoubleMap.put(rs.getString("도시"), rs.getDouble("주문금액합"));
-            return stringDoubleMap;
+            Map<String, Double> stringDoubleMap2 = new HashMap<>();
+            stringDoubleMap2.put(rs.getString("도시"), rs.getDouble("주문금액합"));
+            stringDoubleMap2.put(rs.getString("주문연도"), rs.getDouble("count(*)"));
+            return stringDoubleMap2;
+        }
+    };
+    
+    private final RowMapper<Map<String, Double>> orderRowMapper3 = new RowMapper<Map<String, Double>>() {
+        @Override
+        public Map<String, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Map<String, Double> stringDoubleMap3 = new HashMap<>();
+            stringDoubleMap3.put(rs.getString("주문연도"),rs.getDouble("count(*)"));
+            return stringDoubleMap3;
         }
     };
 
@@ -111,13 +121,9 @@ public class OrderTemplateRepository implements OrderRepository {
                 "inner join 고객 on 고객.고객번호 = 주문.고객번호 " +
                 "where 고객.도시 = ? " +
                 "group by year(주문.주문일)";
-        return jdbcTemplate.query(query, (rs, rowNum) -> {
-            Map<String, Double> order = new HashMap<>();
-            order.put("주문연도", rs.getDouble("주문연도"));
-            order.put("주문건수", rs.getDouble("주문건수"));
-            return order;
-        });
+        return jdbcTemplate.query(query, orderRowMapper3, city);
+        }
     }
-}
+
 
 
