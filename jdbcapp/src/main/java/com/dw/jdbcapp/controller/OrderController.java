@@ -58,12 +58,13 @@ public class OrderController {
         );
     }
     
-    // 주문번호, 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
+    // 12월20일금요일_과제4 4. 주문번호, 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
     @PutMapping("/orders/update")
-    public ResponseEntity<Order> updateOrderWithShippingDate (
+    public ResponseEntity<Integer> updateOrderWithShippingDate (
             @RequestBody String id, @RequestBody String date){
-    return new ResponseEntity<>(orderService.updateOrderWithShippingDate(id,date),
-            HttpStatus.OK);
+        return new ResponseEntity<>(
+                orderService.updateOrderWithShippingDate(id,date),
+                HttpStatus.OK);
     }
     
     // 5. 도시별로 주문금액합 결과를 내림차순 정렬하여 조회하는 API
@@ -73,7 +74,8 @@ public class OrderController {
                 orderService.getTopCitiesByTotalOrderAmount(limit),
                 HttpStatus.OK);
     }
-    
+
+    // 6. 도시를 매개변수로 해당 도시의 년도별 주문건수를 조회하는 API
     @GetMapping("/orders/ordercount/year/{city}")
     public ResponseEntity <List<Map<String, Double>>> getOrderCountByYearForCity(@PathVariable String city){
         return new ResponseEntity<>(

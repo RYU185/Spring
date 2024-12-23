@@ -107,10 +107,11 @@ public class OrderJdbcRepository implements OrderRepository {
     public int saveOrders(Order order) {
         return 0;
     }
-    
+
+    // 12월20일금요일_과제4 4. 주문번호, 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
     @Override
-    public Order updateOrderWithShippingDate(String id, String date) {
-        return null;
+    public int updateOrderWithShippingDate(String id, String date) {
+        return 0;
     }
     
     @Override

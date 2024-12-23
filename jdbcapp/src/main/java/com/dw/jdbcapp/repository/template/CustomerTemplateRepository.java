@@ -42,7 +42,7 @@ public class CustomerTemplateRepository implements CustomerRepository {
         return jdbcTemplate.query(query, customerRowMapper);
     }
 
-    // 12.20 과제.  평균마일리지보다 큰 마일리지를 가진 고객들을 조회하는 API
+    // 12.20 과제.1  평균마일리지보다 큰 마일리지를 가진 고객들을 조회하는 API
     @Override
     public List<Customer> getCustomersWithHighMileThanAvg() {
         String query = "select * from 고객 " +

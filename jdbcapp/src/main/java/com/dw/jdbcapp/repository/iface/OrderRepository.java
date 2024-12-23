@@ -1,10 +1,6 @@
 package com.dw.jdbcapp.repository.iface;
 
-import com.dw.jdbcapp.model.Customer;
 import com.dw.jdbcapp.model.Order;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +16,8 @@ public interface OrderRepository {
     // 행의 '갯수'이기 때문에
     int saveOrders(Order order);
 
-    Order updateOrderWithShippingDate(String id, String date);
+    // 12월20일금요일_과제4 4. 주문번호, 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
+    int updateOrderWithShippingDate(String id, String date);
     
     List<Map<String, Double>> getTopCitiesByTotalOrderAmount(int limit);
     

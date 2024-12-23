@@ -78,11 +78,21 @@ public class ProductController {
                 productService.getProductPriceBelow(price_below),
                 HttpStatus.OK);
     }
-    
+
+    // 8. 제품번호와 재고를 매개변수로 해당제품의 재고를 수정하는 api
     @PutMapping("/products/update")
-    public ResponseEntity<String> updateProductWithStock(int id, int stock){
+    public ResponseEntity<Product> updateProductWithStock(@RequestBody Product product){
         return new ResponseEntity<>(
-                productService.updateProductWithStock(id, stock),
+                productService.updateProductWithStock(product),
+                HttpStatus.OK
+        );
+    }
+
+    // 9. 제품명의 일부를 매개변수로 해당 문자열을 포함하는 제품들을 조회하는 api
+    @GetMapping("/products/name/{name}")
+    public ResponseEntity<List<Product>> getProductByProductName (@PathVariable String name){
+        return new ResponseEntity<>(
+                productService.getProductByProductName(name),
                 HttpStatus.OK
         );
     }

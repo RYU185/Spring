@@ -47,8 +47,9 @@ public class OrderService {
         }
         return orderRequestDTO;
     }
-    
-    public Order updateOrderWithShippingDate(String id, String date) {
+
+    // 12월20일금요일_과제4 4. 주문번호, 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
+    public int updateOrderWithShippingDate(String id, String date) {
         return orderRepository.updateOrderWithShippingDate(id, date);
     }
     

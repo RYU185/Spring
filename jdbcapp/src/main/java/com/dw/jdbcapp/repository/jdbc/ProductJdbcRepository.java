@@ -98,10 +98,16 @@ public class ProductJdbcRepository implements ProductRepository {
     }
     
     @Override
-    public String updateProductWithStock(int id, int stock) {
-        return "";
+    public Product updateProductWithStock(Product product) {
+        return null;
     }
-    
+
+    // 9. 제품명의 일부를 매개변수로 해당 문자열을 포함하는 제품들을 조회하는 api
+    @Override
+    public List<Product> getProductByProductName(String name) {
+        return List.of();
+    }
+
     @Override
     public Product saveProduct(Product product){
         String query = "insert into 제품(제품번호, 제품명, 포장단위, 단가, 재고) "

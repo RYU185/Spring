@@ -59,7 +59,12 @@ public class ProductService {
         return products;
     }
     
-    public String updateProductWithStock(int id, int stock) {
-        return productRepository.updateProductWithStock(id, stock);
+    public Product updateProductWithStock(Product product) {
+        return productRepository.updateProductWithStock(product);
+    }
+
+    // 9. 제품명의 일부를 매개변수로 해당 문자열을 포함하는 제품들을 조회하는 api
+    public List<Product> getProductByProductName(String name){
+        return productRepository.getProductByProductName(name);
     }
 }
