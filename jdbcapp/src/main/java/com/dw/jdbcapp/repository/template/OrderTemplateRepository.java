@@ -33,14 +33,14 @@ public class OrderTemplateRepository implements OrderRepository {
             return order;
         }
     };
-
-
-    public final RowMapper<Map<String, Double>> orderRowMapper_2 = new RowMapper<Order>() {
+    
+    private final RowMapper<Map<String, Double>> orderRowMapper2 = new RowMapper<Map<String, Double>>() {
         @Override
-        public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Map<String, Double> map = new HashMap<>();
+        public Map<String, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Map<String, Double> stringDoubleMap = new HashMap<>();
+            stringDoubleMap.put(rs.getString("도시"), rs.getDouble("주문금액합"));
+            return stringDoubleMap;
         }
-
     };
 
     @Override
@@ -100,7 +100,7 @@ public class OrderTemplateRepository implements OrderRepository {
                 "group by 고객.도시 " +
                 "order by 주문금액합 desc " +
                 "limit ?";
-        return jdbcTemplate.query(query, orderRowMapper_2, limit);
+        return jdbcTemplate.query(query, orderRowMapper2, limit);
     }
 
 
