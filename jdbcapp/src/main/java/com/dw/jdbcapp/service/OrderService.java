@@ -1,6 +1,7 @@
 package com.dw.jdbcapp.service;
 
 import com.dw.jdbcapp.DTO.OrderRequestDTO;
+import com.dw.jdbcapp.exception.InvalidRequestException;
 import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Order;
 import com.dw.jdbcapp.model.OrderDetail;
@@ -42,8 +43,12 @@ public class OrderService {
         // 1. DTO에서 주문정보를 꺼내 주문테이블에 저장(INSERT)
         orderRepository.saveOrders(orderRequestDTO.toOrder());
         // 2. DTO에서 주문세부정보를 꺼내 주문세부테이블에 저장(INSERT) - 반복문 필요 (DTO 필드의 주문세부는 List 형태이므로)
-        for (OrderDetail data : orderRequestDTO.getOrderDetails()) {
-            orderDetailRepository.saveOrderDetail(data);
+        try {
+            for (OrderDetail data : orderRequestDTO.getOrderDetails()) {
+                orderDetailRepository.saveOrderDetail(data);
+            }
+        } catch (InvalidRequestException e){
+            throw new InvalidRequestException("요청하신 수량은 현재 재고를 초과합니다: "+)
         }
         return orderRequestDTO;
     }
