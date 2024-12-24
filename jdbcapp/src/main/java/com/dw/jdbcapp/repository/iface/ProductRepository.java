@@ -21,4 +21,6 @@ public interface ProductRepository {
 
     // 9. 제품명의 일부를 매개변수로 해당 문자열을 포함하는 제품들을 조회하는 api
     List<Product> getProductByProductName(String name);
+
+    List<Product> getProductsByStockValue();
 }

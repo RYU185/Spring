@@ -60,8 +60,8 @@ public class OrderController {
     
     // 12월20일금요일_과제4 4. 주문번호, 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
     @PutMapping("/orders/update")
-    public ResponseEntity<Integer> updateOrderWithShippingDate (
-            @RequestBody String id, @RequestBody String date){
+    public ResponseEntity<String> updateOrderWithShippingDate (
+            @RequestParam String id, @RequestParam String date){
         return new ResponseEntity<>(
                 orderService.updateOrderWithShippingDate(id,date),
                 HttpStatus.OK);

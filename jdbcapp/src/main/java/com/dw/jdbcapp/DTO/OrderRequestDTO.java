@@ -11,6 +11,7 @@ public class OrderRequestDTO {
     private String customerId;
     private String employeeId;
     private LocalDate requestDate;
+
     private List<OrderDetail> OrderDetails;
 
     public OrderRequestDTO() {
@@ -64,9 +65,9 @@ public class OrderRequestDTO {
         OrderDetails = orderDetails;
     }
 
-    public Order toOrder(){  // Service 의 할일을 덜어주고 유지보수 관리에 편함
-                             // 주문 쪽에 들어갈 것들만 모아서 메서드로
-                             // 클라이언트에서 서버로 들어가는 경우의 코드 정리스킬
+    public Order toOrder() {  // Service 의 할일을 덜어주고 유지보수 관리에 편함
+        // 주문 쪽에 들어갈 것들만 모아서 메서드로
+        // 클라이언트에서 서버로 들어가는 경우의 코드 정리스킬
 
         Order order = new Order();
         order.setOrderID(this.orderId);

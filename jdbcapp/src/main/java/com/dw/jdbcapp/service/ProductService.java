@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.service;
 
+import com.dw.jdbcapp.DTO.ProductDTO;
 import com.dw.jdbcapp.exception.InvalidRequestException;
 import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Product;
@@ -10,14 +11,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductService {
     @Autowired
+    ProductRepository productRepository;
     @Qualifier("productTemplateRepository") // 아래에 주입될 구현체를 지정해주는 어노테이션
                                             // JDBC로 사용하고싶다면 productJdbcRepository로 수정
-    ProductRepository productRepository;
 
     public List<Product> getAllProducts(){
         return productRepository.getAllProducts();
@@ -66,5 +69,26 @@ public class ProductService {
     // 9. 제품명의 일부를 매개변수로 해당 문자열을 포함하는 제품들을 조회하는 api
     public List<Product> getProductByProductName(String name){
         return productRepository.getProductByProductName(name);
+    }
+
+    // 10. ProductDTO를 아래 형식으로 추가하고 조회하는 API
+    public List<ProductDTO> getProductsByStockValue(){
+        List<ProductDTO> productArrayList = new ArrayList<>();
+
+        List<Map<String, Object>> mapList =
+                productRepository.getProductsByStockValue;
+
+        for(Map<String, Object> data : mapList ){
+            ProductDTO temp = new ProductDTO(
+                    (int) data.get("제품번호"),
+                    (String)data.get("제품명"),
+                    (double)data.get("단가"),
+                    (int)data.get("재고"),
+                    (double)data.get("재고금액")
+            );
+            System.out.println(temp);
+            productArrayList.add(temp);
+        }
+        return productArrayList;
     }
 }

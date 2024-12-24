@@ -38,7 +38,8 @@ public class OrderTemplateRepository implements OrderRepository {
         @Override
         public Map<String, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
             Map<String, Double> stringDoubleMap2 = new HashMap<>();
-            stringDoubleMap2.put(rs.getString("도시"), rs.getDouble("주문금액합"));
+            stringDoubleMap2.put(rs.getString("도시"),
+                    rs.getDouble("주문금액합"));
             return stringDoubleMap2;
         }
     };
@@ -47,7 +48,7 @@ public class OrderTemplateRepository implements OrderRepository {
         @Override
         public Map<String, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
             Map<String, Double> stringDoubleMap3 = new HashMap<>();
-            stringDoubleMap3.put(rs.getString("주문연도"),rs.getDouble("count(*)"));
+            stringDoubleMap3.put(rs.getString("주문연도"),rs.getDouble("주문건수"));
             return stringDoubleMap3;
         }
     };

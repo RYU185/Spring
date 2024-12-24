@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.controller;
 
+import com.dw.jdbcapp.DTO.ProductDTO;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,15 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductByProductName (@PathVariable String name){
         return new ResponseEntity<>(
                 productService.getProductByProductName(name),
+                HttpStatus.OK
+        );
+    }
+
+    // 10. ProductDTO를 아래 형식으로 추가하고 조회하는 API
+    @GetMapping("/products/stockvalue")
+    public ResponseEntity <List<ProductDTO>> getProductsByStockValue(){
+        return new ResponseEntity<>(
+                productService.getProductsByStockValue,
                 HttpStatus.OK
         );
     }

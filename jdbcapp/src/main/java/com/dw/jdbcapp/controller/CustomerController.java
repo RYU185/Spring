@@ -21,7 +21,6 @@ public class CustomerController {
         return new ResponseEntity<>(
                 customerService.getAllCustomers(), // 첫번째 매개변수는 데이터
                 HttpStatus.OK); // 두번째는 http의 상태
-
     }
 
     // 12.20 과제.1  평균마일리지보다 큰 마일리지를 가진 고객들을 조회하는 API

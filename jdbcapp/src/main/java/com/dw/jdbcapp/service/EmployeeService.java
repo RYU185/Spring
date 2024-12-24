@@ -48,6 +48,7 @@ public class EmployeeService {
                     LocalDate.parse((String)data.get("입사일")),
                     (String) data.get("부서명"),
                     (String) data.get("이름")
+
             );
             System.out.println(temp);
             employeeDepartmentDTOList.add(temp);
@@ -70,6 +71,7 @@ public class EmployeeService {
     // 과제 3-1  입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
     // 과제 3-2. hiredate를 0으로 입력하면 가장 최근 입사한 사원의 정보를 조회하시오.
     public List<Employee> getEmployeesByHireDate(String hireDate) {
+
         try {
             if (hireDate.equals("0")) {
                 return employeeRepository.getRecentEmployee();

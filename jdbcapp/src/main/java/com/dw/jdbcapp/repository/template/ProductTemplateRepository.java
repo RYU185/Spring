@@ -18,6 +18,8 @@ import java.util.List;
 public class ProductTemplateRepository implements ProductRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+
     private final RowMapper<Product> productRowMapper = new RowMapper<Product>() {
 
         @Override
@@ -117,5 +119,10 @@ public class ProductTemplateRepository implements ProductRepository {
         String query = "select * from 제품 where 제품명 like ?";
         String searchName = "%"+name+"%";
         return jdbcTemplate.query(query,productRowMapper,searchName);
+    }
+
+    @Override
+    public List<Product> getProductsByStockValue() {
+        return List.of();
     }
 }

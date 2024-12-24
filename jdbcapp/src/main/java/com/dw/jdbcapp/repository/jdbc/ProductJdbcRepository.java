@@ -109,6 +109,11 @@ public class ProductJdbcRepository implements ProductRepository {
     }
 
     @Override
+    public List<Product> getProductsByStockValue() {
+        return List.of();
+    }
+
+    @Override
     public Product saveProduct(Product product){
         String query = "insert into 제품(제품번호, 제품명, 포장단위, 단가, 재고) "
                 +"values (?, ?, ?, ?, ?)";
