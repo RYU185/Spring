@@ -26,7 +26,7 @@ public class OrderDetail {
         this.orderID = orderID;
     }
 
-    public String getProductID() {
+    public int getProductID() {
         return productID;
     }
 

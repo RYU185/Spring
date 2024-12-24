@@ -82,9 +82,9 @@ public class ProductController {
 
     // 8. 제품번호와 재고를 매개변수로 해당제품의 재고를 수정하는 api
     @PutMapping("/products/update")
-    public ResponseEntity<Product> updateProductWithStock(@RequestBody Product product){
+    public ResponseEntity<String> updateProductWithStock(@RequestParam int id, @RequestParam int stock){
         return new ResponseEntity<>(
-                productService.updateProductWithStock(product),
+                productService.updateProductWithStock(id, stock),
                 HttpStatus.OK
         );
     }
@@ -100,10 +100,9 @@ public class ProductController {
 
     // 10. ProductDTO를 아래 형식으로 추가하고 조회하는 API
     @GetMapping("/products/stockvalue")
-    public ResponseEntity <List<ProductDTO>> getProductsByStockValue(){
+    public ResponseEntity<List<ProductDTO>> getProductsByStockValue() {
         return new ResponseEntity<>(
-                productService.getProductsByStockValue,
-                HttpStatus.OK
-        );
+                productService.getProductsByStockValue(),
+                HttpStatus.OK);
     }
 }

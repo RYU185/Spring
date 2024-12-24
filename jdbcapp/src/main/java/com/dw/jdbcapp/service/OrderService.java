@@ -8,6 +8,7 @@ import com.dw.jdbcapp.model.OrderDetail;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.iface.OrderDetailRepository;
 import com.dw.jdbcapp.repository.iface.OrderRepository;
+import com.dw.jdbcapp.repository.iface.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,10 @@ public class OrderService {
     @Qualifier("orderDetailTemplateRepository")
     OrderDetailRepository orderDetailRepository; // 주문세부 Repository에 insert해야하므로 의존성 주입
                                                  // Service는 Repository에 관해 얽매이지 않는다
+
+    @Autowired
+    @Qualifier("productTemplateRepository")
+    ProductRepository productRepository;
 
     public List<Order> getAllOrders(){
         return orderRepository.getAllOrders();
@@ -47,14 +52,23 @@ public class OrderService {
     // 주문세부의 특정 제품의 재고가 부족하여 예외가 발생하면 전체주문, 주문세부의
     // 저장되었던 내용들은 모두 취소되고 롤백됨
     @Transactional
-    public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO){
-        // 1. DTO에서 주문정보를 꺼내 주문테이블에 저장(INSERT)
+    public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO) {
+        // 1. DTO에서 주문정보를 꺼내 주문테이블에 insert
         orderRepository.saveOrders(orderRequestDTO.toOrder());
-        // 2. DTO에서 주문세부정보를 꺼내 주문세부테이블에 저장(INSERT) - 반복문 필요 (DTO 필드의 주문세부는 List 형태이므로)
+        // 2. DTO에서 주문세부정보를 꺼내 주문세부테이블에 insert. 반복문필요
         for (OrderDetail data : orderRequestDTO.getOrderDetails()) {
-            Product product = product
+            // 과제 4-7 주문입력 API에서 아래 예외를 추가하시오
+            // 제품테이블의 재고보다 많은 양을 주문하는 경우 예외발생
+            Product product = productRepository.getProductNumber(
+                    data.getProductID());
+            System.out.println(product.getInventory() + " " + data.getOrderCount());
+            if (product.getInventory() - data.getOrderCount() < 0) {
+                throw new InvalidRequestException(
+                        "요청하신 수량은 현재 재고를 초과합니다: " +
+                                product.getProductName() + ", 현재 재고 " +
+                                product.getInventory());
+            }
             orderDetailRepository.saveOrderDetail(data);
-
         }
         return orderRequestDTO;
     }

@@ -5,10 +5,8 @@ import com.dw.jdbcapp.exception.InvalidRequestException;
 import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.iface.ProductRepository;
-import com.dw.jdbcapp.repository.jdbc.ProductJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,8 +60,9 @@ public class ProductService {
         return products;
     }
     
-    public Product updateProductWithStock(Product product) {
-        return productRepository.updateProductWithStock(product);
+    public String updateProductWithStock(int id, int stock) {
+        productRepository.updateProductWithStock(id, stock);
+        return "성공적으로 수정하였습니다";
     }
 
     // 9. 제품명의 일부를 매개변수로 해당 문자열을 포함하는 제품들을 조회하는 api
@@ -73,21 +72,11 @@ public class ProductService {
 
     // 10. ProductDTO를 아래 형식으로 추가하고 조회하는 API
     public List<ProductDTO> getProductsByStockValue(){
+        List<Product> products = productRepository.getAllProducts();
         List<ProductDTO> productArrayList = new ArrayList<>();
-
-        List<Map<String, Object>> mapList =
-                productRepository.getProductsByStockValue;
-
-        for(Map<String, Object> data : mapList ){
-            ProductDTO temp = new ProductDTO(
-                    (int) data.get("제품번호"),
-                    (String)data.get("제품명"),
-                    (double)data.get("단가"),
-                    (int)data.get("재고"),
-                    (double)data.get("재고금액")
-            );
-            System.out.println(temp);
-            productArrayList.add(temp);
+        for (Product data : products){
+           // productArrayList.add(ProductDTO.fromProduct(data));
+            productArrayList.add(new ProductDTO(data));
         }
         return productArrayList;
     }

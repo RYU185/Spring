@@ -104,13 +104,10 @@ public class ProductTemplateRepository implements ProductRepository {
     // 8. 제품번호와 재고를 매개변수로 해당 제품의 재고를 수정하는 api
     // ???
     @Override
-    public Product updateProductWithStock(Product product) {
+    public int updateProductWithStock(int id, int stock) {
         String query = "update 제품 set 재고 = ? " +
                 "where 제품번호 = ?";
-        jdbcTemplate.update(query,
-                product.getProductName(),
-                product.getProductNumber());
-        return product;
+        return jdbcTemplate.update(query, id, stock);
     }
 
     // 9. 제품명의 일부를 매개변수로 해당 문자열을 포함하는 제품들을 조회하는 api
@@ -119,10 +116,6 @@ public class ProductTemplateRepository implements ProductRepository {
         String query = "select * from 제품 where 제품명 like ?";
         String searchName = "%"+name+"%";
         return jdbcTemplate.query(query,productRowMapper,searchName);
-    }
 
-    @Override
-    public List<Product> getProductsByStockValue() {
-        return List.of();
     }
 }
