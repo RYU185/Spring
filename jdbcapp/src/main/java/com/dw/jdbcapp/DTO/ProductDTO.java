@@ -77,5 +77,4 @@ public class ProductDTO {
         productDTO.setStockValue(product.getPrice() * product.getInventory());
         return productDTO;
     }
-
 }
