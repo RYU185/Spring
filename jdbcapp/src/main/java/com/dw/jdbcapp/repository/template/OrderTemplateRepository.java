@@ -33,25 +33,6 @@ public class OrderTemplateRepository implements OrderRepository {
             return order;
         }
     };
-    
-    private final RowMapper<Map<String, Double>> orderRowMapper2 = new RowMapper<Map<String, Double>>() {
-        @Override
-        public Map<String, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Map<String, Double> stringDoubleMap2 = new HashMap<>();
-            stringDoubleMap2.put(rs.getString("도시"),
-                    rs.getDouble("주문금액합"));
-            return stringDoubleMap2;
-        }
-    };
-    
-    private final RowMapper<Map<String, Double>> orderRowMapper3 = new RowMapper<Map<String, Double>>() {
-        @Override
-        public Map<String, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Map<String, Double> stringDoubleMap3 = new HashMap<>();
-            stringDoubleMap3.put(rs.getString("주문연도"),rs.getDouble("주문건수"));
-            return stringDoubleMap3;
-        }
-    };
 
     @Override
     public List<Order> getAllOrders() {
@@ -110,9 +91,15 @@ public class OrderTemplateRepository implements OrderRepository {
                 "group by 고객.도시 " +
                 "order by 주문금액합 desc " +
                 "limit ?";
-        return jdbcTemplate.query(query, orderRowMapper2, limit);
-    }
 
+        return jdbcTemplate.query(query, (rs, rowNum) -> {
+            Map<String, Double> map = new HashMap<>();
+            map.put(rs.getString("도시"), rs.getDouble("주문금액합"));
+            return map;
+        },limit);
+
+    }
+ // 람다식으로 한번 써보기!
 
     // 6. 도시를 매개변수로 해당 도시의 년도별 주문건수를 조회하는 API
     @Override
@@ -121,9 +108,15 @@ public class OrderTemplateRepository implements OrderRepository {
                 "inner join 고객 on 고객.고객번호 = 주문.고객번호 " +
                 "where 고객.도시 = ? " +
                 "group by year(주문.주문일)";
-        return jdbcTemplate.query(query, orderRowMapper3, city);
-        }
+        return jdbcTemplate.query(query, (rs, rowNum) -> {
+            Map<String, Double> map = new HashMap<>();
+            map.put(rs.getString("주문연도"), rs.getDouble("주문금액합"));
+            return map;
+        },city);
     }
+}
+
+    // 람다식으로 써보기
 
 
 

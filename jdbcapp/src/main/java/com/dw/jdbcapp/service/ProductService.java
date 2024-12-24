@@ -75,8 +75,8 @@ public class ProductService {
         List<Product> products = productRepository.getAllProducts();
         List<ProductDTO> productArrayList = new ArrayList<>();
         for (Product data : products){
-           // productArrayList.add(ProductDTO.fromProduct(data));
-            productArrayList.add(new ProductDTO(data));
+           productArrayList.add(ProductDTO.fromProduct(data));
+            //productArrayList.add(new ProductDTO(data));
         }
         return productArrayList;
     }
