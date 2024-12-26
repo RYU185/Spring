@@ -15,6 +15,7 @@ public class DepartmentController {
     @Autowired
     DepartmentService departmentService;
 
+    // 부서 테이블 전체를 가져오는 API
     @GetMapping("/find-all-department")
     public ResponseEntity<List<Department>> getAllDepartments() {
         return new ResponseEntity<>(
@@ -24,6 +25,7 @@ public class DepartmentController {
     }
 
     // 12/16
+    // POST ( = 기존 테이블에 새로운 데이터를 추가 (Create, Insert))
     // single data (저장할 데이터 객체 1개 처리용)
     @PostMapping("/post/department")
     public ResponseEntity <Department> saveDepartment(@RequestBody Department department) { // 메세지의 바디에서 꺼낸다
@@ -39,7 +41,8 @@ public class DepartmentController {
                 departmentService.saveDepartmentlist(departmentList),
                 HttpStatus.CREATED);
     }
-
+    
+    // PUT ( = 기존 테이블의 데이터를 수정 (Update))
     @PutMapping("/put/department")
     public ResponseEntity <Department> updateDepartment(@RequestBody Department department) {
         return new ResponseEntity<>(departmentService.updateDepartment(department),

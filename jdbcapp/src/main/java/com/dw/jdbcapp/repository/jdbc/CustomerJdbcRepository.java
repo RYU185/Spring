@@ -14,6 +14,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
+    // 고객 테이블 전부를 가져오는 API
     @Override
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();

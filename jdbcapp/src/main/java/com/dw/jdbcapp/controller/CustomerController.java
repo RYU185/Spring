@@ -10,12 +10,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// 컨트롤러 구성
+// @RestController
+// RequestMapping("/api") 코딩룰 +
+// @GET매핑 = @PathVariable, @RequestParam
+
+
 @RestController
 @RequestMapping("/api")
 public class CustomerController {
     @Autowired
     CustomerService customerService;
-
+    
+    // 고객테이블 전부를 가져오는 API
     @GetMapping("/find-all-customer")
     public ResponseEntity<List<Customer>> getAllCustomers() {
         return new ResponseEntity<>(

@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Repository
 public class CustomerTemplateRepository implements CustomerRepository {
     @Autowired
@@ -35,7 +34,8 @@ public class CustomerTemplateRepository implements CustomerRepository {
             return customer;
         }
     };
-
+    
+    // 고객테이블 전부를 가져오는 API
     @Override
     public List<Customer> getAllCustomers() {
         String query = "select * from 고객";
