@@ -1,5 +1,6 @@
 package com.dw.jpaapp.model;
 
+import com.dw.jpaapp.DTO.StudentDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,4 +33,20 @@ public class Student {
     @ManyToMany(mappedBy = "studentList")
     private List<Course> coursesList = new ArrayList<>();
 
+
+    public StudentDTO toStudentDTO(){
+//        StudentDTO studentDTO = new StudentDTO();
+//        studentDTO.setId(this.id);
+//        studentDTO.setName(this.name);
+//        studentDTO.setEmail(this.email);
+//        List<Long> courseId = new ArrayList<>();
+//        for (Course data: coursesList){
+//            courseId.add(data.getId());
+//        }
+//        studentDTO.setCourseId(courseId);
+//        return studentDTO;
+
+        List<Long> courseIds = coursesList.stream().map(Course::getId).toList();
+        return new StudentDTO(this.id, this.name, this.email, courseIds);
+    }
 }

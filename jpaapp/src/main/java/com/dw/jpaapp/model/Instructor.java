@@ -1,5 +1,7 @@
 package com.dw.jpaapp.model;
 
+import com.dw.jpaapp.DTO.CourseDTO;
+import com.dw.jpaapp.DTO.InstructorDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,4 +36,8 @@ public class Instructor {
     // = instructor를 필드로 가지고 있는 Course를 주인으로 하겠다.
     // 즉 mappedBy 에는 관계 간 주체의 필드를 써야한다
 
+    public InstructorDTO toInstructor(){
+        List<Long> courseIds = courseList.stream().map(Course::getId).toList();
+        return new InstructorDTO(this.id,this.name,this.career, courseIds);
+    }
 }

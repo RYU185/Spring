@@ -1,9 +1,8 @@
 package com.dw.jpaapp.controller;
 
-
-import com.dw.jpaapp.DTO.CourseDTO;
-import com.dw.jpaapp.model.Course;
-import com.dw.jpaapp.service.CourseService;
+import com.dw.jpaapp.DTO.InstructorDTO;
+import com.dw.jpaapp.model.Instructor;
+import com.dw.jpaapp.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class CourseController {
+public class InstructorController {
     @Autowired
-    CourseService courseService;
+    InstructorService instructorService;
 
-    @GetMapping("/courses")
-    public ResponseEntity<List<CourseDTO>> getAllCourses(){
+    @GetMapping("/instructors")
+    public ResponseEntity<List<InstructorDTO>> getAllInstructors(){
         return new ResponseEntity<>(
-                courseService.getAllCourses(),
-                HttpStatus.OK);
+                instructorService.getAllInstructors(),
+                HttpStatus.OK
+        );
     }
 }
