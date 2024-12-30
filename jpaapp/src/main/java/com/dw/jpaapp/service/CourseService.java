@@ -25,6 +25,12 @@ public class CourseService {
         // stream(): 일렬로 세워서 전송
         // map(): 변형시키다 (위 코드에서는 CourseDTO로 변형시키는 과정)
         // filter(): 참/거짓을 리턴하는 조건식 필요. 참이면 보내고 거짓이면 버림
+    }
 
+    public List<CourseDTO> getCoursesLike(String title){
+        return courseRepository.findByTitleLike(title)
+                .map(Course::toDTO)
+                .stream()
+                .toList();
     }
 }

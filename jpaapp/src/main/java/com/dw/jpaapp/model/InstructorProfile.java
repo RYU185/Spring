@@ -3,10 +3,7 @@ package com.dw.jpaapp.model;
 import com.dw.jpaapp.DTO.InstructorDTO;
 import com.dw.jpaapp.DTO.InstructorProfileDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,8 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "instructor_profile")
+@ToString
 @Entity
+@Table(name = "instructor_profile")
 public class InstructorProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

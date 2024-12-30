@@ -1,14 +1,13 @@
 package com.dw.jpaapp.controller;
 
+import com.dw.jpaapp.DTO.CourseDTO;
 import com.dw.jpaapp.DTO.StudentDTO;
 import com.dw.jpaapp.model.Student;
 import com.dw.jpaapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +22,19 @@ public class StudentController {
         return new ResponseEntity<>(
                 studentService.getAllStudents(),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<String> getStudentInfo(){
+        return new ResponseEntity<>(studentService.getStudentInfo(),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/student/save")
+    public ResponseEntity<StudentDTO> saveStudent(@RequestBody StudentDTO studentDTO){
+        return new ResponseEntity<>(
+                studentService.saveStudent(studentDTO),
+                HttpStatus.CREATED);
+
     }
 }

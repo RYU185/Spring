@@ -2,10 +2,10 @@ package com.dw.jpaapp.model;
 
 import com.dw.jpaapp.DTO.StudentDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor // 매개변수 있는 생성자
 @Getter // get
 @Setter // set
+@ToString
 @Entity // 이 클래스가 테이블과 1대1로 매핑된다는 것을 알리는 어노테이션
 @Table(name = "student") // 명시적으로 테이블이름 설정
 public class Student {
@@ -49,4 +50,5 @@ public class Student {
         List<Long> courseIds = coursesList.stream().map(Course::getId).toList();
         return new StudentDTO(this.id, this.name, this.email, courseIds);
     }
+
 }

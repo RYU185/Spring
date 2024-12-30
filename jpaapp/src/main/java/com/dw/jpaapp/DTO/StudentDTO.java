@@ -1,20 +1,19 @@
 package com.dw.jpaapp.DTO;
 
 import com.dw.jpaapp.model.Course;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class StudentDTO {
     private Long id;
     private String name;
     private String email;
-    private List<Long> courseId;
+    private List<Long> courseId = new ArrayList<>();
 }

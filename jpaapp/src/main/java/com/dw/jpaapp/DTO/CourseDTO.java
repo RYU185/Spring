@@ -1,10 +1,7 @@
 package com.dw.jpaapp.DTO;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class CourseDTO {
     // 양방향이기 때문에 객체를 쓰지않는다
     // 양방향을 포기하지 않고 쓴다면 DTO를 사용
