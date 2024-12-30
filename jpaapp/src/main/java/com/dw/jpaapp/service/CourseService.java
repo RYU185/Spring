@@ -2,18 +2,23 @@ package com.dw.jpaapp.service;
 
 import com.dw.jpaapp.DTO.CourseDTO;
 import com.dw.jpaapp.model.Course;
+import com.dw.jpaapp.model.Student;
 import com.dw.jpaapp.repository.CourseRepository;
+import com.dw.jpaapp.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
     public List<CourseDTO> getAllCourses(){
 //        List<CourseDTO> courseDTOS = new ArrayList<>();
@@ -28,9 +33,24 @@ public class CourseService {
     }
 
     public List<CourseDTO> getCoursesLike(String title){
-        return courseRepository.findByTitleLike(title)
-                .map(Course::toDTO)
-                .stream()
-                .toList();
+        return courseRepository.findByTitleLike("%"+title+"%").stream().map(Course::toDTO).toList();
+    }
+
+    public CourseDTO saveCourse(CourseDTO courseDTO){
+        Course course = new Course();
+        course.setTitle(courseDTO.getTitle());
+        course.setDescription(courseDTO.getDescription());
+        course.setInstructor_fk(course.getInstructor_fk());
+        List<Student> studentList = new ArrayList<>();
+        for (Long id : courseDTO.getStudentId()){
+            Optional<Student> studentOptional = studentRepository.findById(id);
+            if (studentOptional.isPresent()){
+                Student student = studentOptional.get();
+                student.getCoursesList().add(course);
+                studentList.add(student);
+            }
+        }
+        course.setStudentList(studentList);
+        return courseRepository.save(course).toDTO();
     }
 }

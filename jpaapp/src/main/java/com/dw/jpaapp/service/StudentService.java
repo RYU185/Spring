@@ -44,7 +44,7 @@ public class StudentService {
 //        // get()? : 안에 있는 데이터를 리턴 (null 이 아닌경우 리턴)
 
         // 위 코드의 람다식
-        return studentRepository.findByName2("Steve")
+        return studentRepository.findByName("Steve")
                 .map(Student::toStudentDTO)
                 .map(StudentDTO::toString)
                 .orElseThrow(()->new RuntimeException("없는 데이터"));
