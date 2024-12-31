@@ -4,7 +4,9 @@ import com.dw.jpaapp.DTO.CourseDTO;
 import com.dw.jpaapp.model.Course;
 import com.dw.jpaapp.model.Student;
 import com.dw.jpaapp.repository.CourseRepository;
+import com.dw.jpaapp.repository.InstructorRepository;
 import com.dw.jpaapp.repository.StudentRepository;
+import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class CourseService {
     CourseRepository courseRepository;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    InstructorRepository instructorRepository;
+
 
     public List<CourseDTO> getAllCourses(){
 //        List<CourseDTO> courseDTOS = new ArrayList<>();
@@ -32,21 +37,22 @@ public class CourseService {
         // filter(): 참/거짓을 리턴하는 조건식 필요. 참이면 보내고 거짓이면 버림
     }
 
+    // 12/30 1. 검색어를 매개변수로 전달하고 검색어로 title을 가진 과목을 조회
     public List<CourseDTO> getCoursesLike(String title){
         return courseRepository.findByTitleLike("%"+title+"%").stream().map(Course::toDTO).toList();
     }
 
+    // 2. 12/30 과목 정보를 새로 저장하는 API
     public CourseDTO saveCourse(CourseDTO courseDTO){
         Course course = new Course();
         course.setTitle(courseDTO.getTitle());
         course.setDescription(courseDTO.getDescription());
-        course.setInstructor_fk(course.getInstructor_fk());
+        course.setInstructor_fk(courseDTO.getInstructorId(courseRepository.findById()));
         List<Student> studentList = new ArrayList<>();
         for (Long id : courseDTO.getStudentId()){
             Optional<Student> studentOptional = studentRepository.findById(id);
             if (studentOptional.isPresent()){
                 Student student = studentOptional.get();
-                student.getCoursesList().add(course);
                 studentList.add(student);
             }
         }
