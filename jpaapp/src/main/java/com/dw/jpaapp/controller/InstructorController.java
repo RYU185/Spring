@@ -25,4 +25,12 @@ public class InstructorController {
                 HttpStatus.OK
         );
     }
+
+    @GetMapping("/instructor/{id}")
+    public ResponseEntity <InstructorDTO> getInstructor(Long id){
+        return new ResponseEntity<>(
+                instructorService.getInstructor(id),
+                HttpStatus.OK
+        );
+    }
 }

@@ -44,17 +44,18 @@ public class CourseService {
 
     // 2. 12/30 과목 정보를 새로 저장하는 API
     public CourseDTO saveCourse(CourseDTO courseDTO){
-        Course course = new Course();
-        course.setTitle(courseDTO.getTitle());
+        Course course = new Course(); // save 1단계: 새로운 객체 생성
+        course.setTitle(courseDTO.getTitle()); // 2단계: id는 update 아니면 넣지말기,
+                                            // 객체 안에 들어갈 정보들을 DTO에서 꺼내서 넣기
         course.setDescription(courseDTO.getDescription());
-        course.setInstructor_fk(courseDTO.getInstructorId(courseRepository.findById()));
+        course.setInstructor_fk(                // 2-1 강사 정보를 불러와야하므로 강사 레포지토리를 가져오고
+                instructorRepository
+                .findById(courseDTO.getInstructorId()) //
+                .orElseThrow(()->new RuntimeException("No Instructor")));
         List<Student> studentList = new ArrayList<>();
         for (Long id : courseDTO.getStudentId()){
-            Optional<Student> studentOptional = studentRepository.findById(id);
-            if (studentOptional.isPresent()){
-                Student student = studentOptional.get();
-                studentList.add(student);
-            }
+            studentList.add(studentRepository.findById(id)
+                    .orElseThrow(()->new RuntimeException("no student")));
         }
         course.setStudentList(studentList);
         return courseRepository.save(course).toDTO();
