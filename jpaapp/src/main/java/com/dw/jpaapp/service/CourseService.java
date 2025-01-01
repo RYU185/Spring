@@ -48,7 +48,7 @@ public class CourseService {
         course.setTitle(courseDTO.getTitle()); // 2단계: id는 update 아니면 넣지말기,
                                             // 객체 안에 들어갈 정보들을 DTO에서 꺼내서 넣기
         course.setDescription(courseDTO.getDescription());
-        course.setInstructor_fk(                // 2-1 강사 정보를 불러와야하므로 강사 레포지토리를 가져오고
+        course.setInstructor_fk(                // 2-1 강사 정보를 불러와야하므로 강사 레포지토리를 가져오고 예외처리
                 instructorRepository
                 .findById(courseDTO.getInstructorId()) //
                 .orElseThrow(()->new RuntimeException("No Instructor")));

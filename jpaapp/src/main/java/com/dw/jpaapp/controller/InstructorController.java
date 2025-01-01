@@ -26,6 +26,7 @@ public class InstructorController {
         );
     }
 
+    // 12/30 3. Instructor의 id를 매개변수로 강사의 정보를 조회
     @GetMapping("/instructor/{id}")
     public ResponseEntity <InstructorDTO> getInstructor(Long id){
         return new ResponseEntity<>(
