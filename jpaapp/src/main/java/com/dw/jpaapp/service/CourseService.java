@@ -43,21 +43,18 @@ public class CourseService {
     }
 
     // 2. 12/30 과목 정보를 새로 저장하는 API
-    public CourseDTO saveCourse(CourseDTO courseDTO){
-        Course course = new Course(); // save 1단계: 새로운 객체 생성
-        course.setTitle(courseDTO.getTitle()); // 2단계: id는 update 아니면 넣지말기,
-                                            // 객체 안에 들어갈 정보들을 DTO에서 꺼내서 넣기
+    // 과제5-2. 과목 정보를 새로 저장
+    public CourseDTO saveCourse(CourseDTO courseDTO) {
+        Course course = new Course(); // 객체를 만들고
+        course.setTitle(courseDTO.getTitle()); // 객체에 필드를 채워넣고
         course.setDescription(courseDTO.getDescription());
-        course.setInstructor_fk(                // 2-1 강사 정보를 불러와야하므로 강사 레포지토리를 가져오고 예외처리
-                instructorRepository
-                .findById(courseDTO.getInstructorId()) //
-                .orElseThrow(()->new RuntimeException("No Instructor")));
-        List<Student> studentList = new ArrayList<>();
-        for (Long id : courseDTO.getStudentId()){
-            studentList.add(studentRepository.findById(id)
-                    .orElseThrow(()->new RuntimeException("no student")));
-        }
-        course.setStudentList(studentList);
-        return courseRepository.save(course).toDTO();
+        course.setInstructor_fk(instructorRepository.findById(courseDTO.getInstructorId())
+                .orElseThrow(()->new RuntimeException("No instructor")));
+        course.setStudentList(courseDTO.getStudentId().stream()
+                .map(id->studentRepository.findById(id))
+                .map(optional->optional.orElseThrow(()->new RuntimeException("No Student")))
+                .toList()
+        );
+        return courseRepository.save(course).toDTO(); // 세이브 save
     }
 }
