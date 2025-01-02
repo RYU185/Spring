@@ -2,6 +2,8 @@ package com.dw.companyapp.service;
 
 import com.dw.companyapp.dto.EmployeeDepartmentDTO;
 import com.dw.companyapp.model.Employee;
+import com.dw.companyapp.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +11,11 @@ import java.util.Map;
 
 @Service
 public class EmployeeService {
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees() {
-        return null;
+        return employeeRepository.findAll().stream().toList();
     }
 
     // 과제 3-1 사원정보를 조회할때 사원번호가 올바르지 않은 경우의 예외 처리
