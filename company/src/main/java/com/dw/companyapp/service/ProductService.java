@@ -19,7 +19,7 @@ public class ProductService {
 
     // 과제 1-1 제품번호를 기준으로 제품 정보를 조회하는 API
     public Product getProductById(int productNumber) {
-        return null;
+        return productRepository.findByProductId(productNumber);
     }
 
     // 과제 2-1 제품테이블에 새로운 제품 1개를 추가하는 API
