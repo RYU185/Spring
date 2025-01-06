@@ -15,6 +15,6 @@ public class MileageGradeService {
     MilegeGradeRepository milegeGradeRepository;
 
     public List<MileageGrade> getAllMileages() {
-        return milegeGradeRepository.findAll().stream().toList();
+        return milegeGradeRepository.findAll();
     }
 }

@@ -10,6 +10,6 @@ import java.util.Map;
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
 
     @Query("select e from Employee e join Department d on e.department = d.department " +
-            "departmentName = :departmentName")
+            "where departmentName = :departName")
     List<Map<String, Object>> findByDepartName();
 }
