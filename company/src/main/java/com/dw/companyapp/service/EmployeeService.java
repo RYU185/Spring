@@ -20,8 +20,9 @@ public class EmployeeService {
 
     // 과제 3-1 사원정보를 조회할때 사원번호가 올바르지 않은 경우의 예외 처리
     public Employee getEmployeeById(String id) {
-        return null;
+        return employeeRepository.findById(id).orElseThrow(()->new RuntimeException("Not found ID"));
     }
+
 
     public List<Map<String,Object>> getEmployeesWithDepartName() {
         return null;
@@ -30,6 +31,7 @@ public class EmployeeService {
     public List<EmployeeDepartmentDTO> getEmployeesWithDepartName2() {
         return null;
     }
+
 
     // 과제 1-3 부서번호와 직위를 기준으로 해당 부서에 근무하는 특정 직위의 사원 정보를 조회하는 API
     // 과제 3-3 부서번호와 직위로 사원정보를 조회할때 데이터가 없는 경우의 예외처리

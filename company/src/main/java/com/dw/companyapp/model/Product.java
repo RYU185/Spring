@@ -1,5 +1,6 @@
 package com.dw.companyapp.model;
 
+import com.dw.companyapp.dto.ProductDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -25,4 +26,11 @@ public class Product {
     private double unitPrice;
     @Column(name="재고")
     private int stock;
+
+    public ProductDTO toDTO (){
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setProductId((int) this.productId);
+        productDTO.setProductName(this.productName);
+        productDTO.set
+    }
 }

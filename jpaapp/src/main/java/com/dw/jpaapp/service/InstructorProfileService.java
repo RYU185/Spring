@@ -19,6 +19,4 @@ public class InstructorProfileService {
         return instructorProfileRepository.findAll().stream()
                 .map(InstructorProfile::toDTO).toList();
     }
-
-
 }
