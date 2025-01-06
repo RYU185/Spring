@@ -16,15 +16,12 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> postUser (@RequestBody User user){
-        return new ResponseEntity<>(
-                userService.postUser(user),
-                HttpStatus.CREATED
-        );
+    public ResponseEntity<User> postUser(@RequestBody User user){
+        return new ResponseEntity<>(userService.postUser(user), HttpStatus.CREATED);
     }
 
     @GetMapping("/user/all")
-    public ResponseEntity<List<User>> getAllUsers (){
+    public ResponseEntity<List<User>> getAllUsers(){
         return new ResponseEntity<>(
                 userService.getAllUsers(),
                 HttpStatus.OK
