@@ -5,6 +5,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -30,5 +32,5 @@ public class User {
     private String role;
 
     @Column(name = "created_at")
-    private String createdAt;
+    private LocalDateTime createdAt;
 }
