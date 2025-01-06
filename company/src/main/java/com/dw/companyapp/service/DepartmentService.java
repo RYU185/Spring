@@ -1,15 +1,19 @@
 package com.dw.companyapp.service;
 
 import com.dw.companyapp.model.Department;
+import com.dw.companyapp.repository.DepartmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class DepartmentService {
+    @Autowired
+    DepartmentRepository departmentRepository;
 
     public List<Department> getAllDepartments() {
-        return null;
+        return departmentRepository.findAll().stream().toList();
     }
 
     public Department saveDepartment(Department department) {
