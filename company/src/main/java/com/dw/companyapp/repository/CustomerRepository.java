@@ -7,10 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, String> {
-    @Query("select c from Customer c where c.mileage > (select avg(c.mileage) from Customer c")
+
+    // 과제 4-1 전체 평균마일리지보다 큰 마일리지를 가진 고객들을 조회하는 API
+    @Query("select c from Customer c where c.mileage > avg(c.mileage)")
     Optional<Customer> findByMileage();
 
-    @Query("select c from Customer join MileageGrade m on c.grade > m.lowerMileage and c.grade < m.upperMileage " +
-            "gradeName = :gradeName")
-    Optional<Customer> findByGradeName(String grade);
 }
