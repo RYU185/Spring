@@ -13,7 +13,7 @@ public class DepartmentService {
     DepartmentRepository departmentRepository;
 
     public List<Department> getAllDepartments() {
-        return departmentRepository.findAll().stream().toList();
+        return departmentRepository.findAll();
     }
 
     public Department saveDepartment(Department department) {

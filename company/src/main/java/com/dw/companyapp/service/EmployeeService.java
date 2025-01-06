@@ -15,7 +15,7 @@ public class EmployeeService {
     EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll().stream().toList();
+        return employeeRepository.findAll();
     }
 
     // 과제 3-1 사원정보를 조회할때 사원번호가 올바르지 않은 경우의 예외 처리
@@ -23,9 +23,9 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElseThrow(()->new RuntimeException("Not found ID"));
     }
 
-
+    //
     public List<Map<String,Object>> getEmployeesWithDepartName() {
-        return null;
+        return employeeRepository.findByDepartName();
     }
 
     public List<EmployeeDepartmentDTO> getEmployeesWithDepartName2() {
