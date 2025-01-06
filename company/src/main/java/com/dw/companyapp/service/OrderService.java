@@ -34,7 +34,7 @@ public class OrderService {
 
     public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO) {
         Order order = new Order();
-        order.setCustomer(orderRequestDTO.getCustomerId());
+        order.setOrderId(orderRequestDTO.getOrderId());
     }
 
     // 과제 4-4 주문번호와 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API

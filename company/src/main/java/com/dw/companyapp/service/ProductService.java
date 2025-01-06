@@ -24,7 +24,13 @@ public class ProductService {
 
     // 과제 2-1 제품테이블에 새로운 제품 1개를 추가하는 API
     public Product saveProduct(Product product) {
-        return null;
+        Product product1 = new Product();
+        product1.setProductId(product.getProductId());
+        product1.setProductName(product.getProductName());
+        product1.setStock(product.getStock());
+        product1.setPkgUnit(product.getPkgUnit());
+        product1.setUnitPrice(product.getUnitPrice());
+        return productRepository.save(product1);
     }
 
     // 과제 2-2 제품테이블에 여러 제품을 추가하는 API
