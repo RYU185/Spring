@@ -23,7 +23,7 @@ public class OrderService {
     // 과제 1-2 주문번호를 기준으로 주문 정보를 조회하는 API
     // 과제 3-2 주문정보를 조회할때 주문번호가 올바르지 않은 경우의 예외 처리
     public Order getOrderById(String orderNumber) {
-        return null;
+        return orderRepository.findById(orderNumber).orElseThrow(()-> new RuntimeException("No found ID"));
     }
 
     // 과제 1-4 제품번호와 고객번호를 기준으로 해당 제품을 주문한 특정 고객의 주문 내역을 조회하는 API
@@ -33,7 +33,8 @@ public class OrderService {
     }
 
     public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO) {
-        return null;
+        Order order = new Order();
+        order.setCustomer(orderRequestDTO.getCustomerId());
     }
 
     // 과제 4-4 주문번호와 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
