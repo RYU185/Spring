@@ -9,6 +9,7 @@ import java.util.Map;
 
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
 
-    @Query("select e from Employee e  ")
+    @Query("select e from Employee e join Department d on e.department = d.department " +
+            "departmentName = :departmentName")
     List<Map<String, Object>> findByDepartName();
 }

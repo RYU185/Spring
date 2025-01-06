@@ -23,7 +23,7 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElseThrow(()->new RuntimeException("Not found ID"));
     }
 
-    //
+    // 3-2 부서명에 따른 사원조회
     public List<Map<String,Object>> getEmployeesWithDepartName() {
         return employeeRepository.findByDepartName();
     }
