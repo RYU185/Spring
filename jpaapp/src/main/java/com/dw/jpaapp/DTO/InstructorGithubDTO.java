@@ -9,5 +9,4 @@ import lombok.*;
 @ToString
 
 public class InstructorGithubDTO {
-    private
 }
