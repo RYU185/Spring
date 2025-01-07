@@ -2,7 +2,7 @@ package com.dw.companyapp.service;
 
 import com.dw.companyapp.dto.OrderRequestDTO;
 import com.dw.companyapp.model.Order;
-import com.dw.companyapp.repository.OrderRepository;
+import com.dw.companyapp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +13,19 @@ import java.util.Map;
 @Transactional
 @Service
 public class OrderService {
-    @Autowired
     OrderRepository orderRepository;
+    CustomerRepository customerRepository;
+    EmployeeRepository employeeRepository;
+    OrderDetailRepository orderDetailRepository;
+    ProductRepository productRepository;
+
+    public OrderService(OrderRepository orderRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository, OrderDetailRepository orderDetailRepository, ProductRepository productRepository) {
+        this.orderRepository = orderRepository;
+        this.customerRepository = customerRepository;
+        this.employeeRepository = employeeRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.productRepository = productRepository;
+    }
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
@@ -35,6 +46,7 @@ public class OrderService {
     public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO) {
         Order order = new Order();
         order.setOrderId(orderRequestDTO.getOrderId());
+        return null;
     }
 
     // 과제 4-4 주문번호와 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
