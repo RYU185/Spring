@@ -33,7 +33,7 @@ public class UserController {
 
         if (userService.validateUser(username, password)) {
             HttpSession session = request.getSession();
-            session.setAttribute("username", username);
+            session.setAttribute("username", username); // 로그인을 성공하면 세션불러오기
             return  new ResponseEntity<>(
                     "Login successful",
                     HttpStatus.OK);

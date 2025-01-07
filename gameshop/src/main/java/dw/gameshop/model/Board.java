@@ -25,11 +25,11 @@ public class Board {
     @JoinColumn(name = "user_name", nullable = false)
     private User author;
     @Column(name="created_date", nullable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private LocalDateTime createdDate = LocalDateTime.now(); // 게시글 생성일
     @Column(name="modified_date", nullable = false)
-    private LocalDateTime modifiedDate = LocalDateTime.now();
+    private LocalDateTime modifiedDate = LocalDateTime.now(); // 게시글 수정일
     @Column(name="is_active")
-    private Boolean isActive = true;
+    private Boolean isActive = true; // 글 존재상태 확인(삭제X)
 
     public BoardDTO toDto() {
         return new BoardDTO(

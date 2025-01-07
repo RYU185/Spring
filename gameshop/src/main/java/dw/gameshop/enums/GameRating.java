@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum GameRating {
+public enum GameRating { // enum: 숫자화 가능한 문자와 상수
     VERY_BAD(1, "매우 나쁨"),
     BAD(2, "나쁨"),
     AVERAGE(3, "보통"),

@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Getter // SETTER가 없는 이유: 회원가입 이후로는 수정을 절대 하지않는다
 @ToString
 @Entity
 @Table(name="user")
 public class User {
     @Id
     @Column(name="user_name")
-    private String userName;
+    private String userName; // 로그인하는 유저 아이디
     @Column(name="password", nullable = false)
     private String password;
     @Column(name="email", nullable = false, unique = true)
@@ -31,7 +31,7 @@ public class User {
     public UserDTO toDto() {
         return new UserDTO(
                 this.userName,
-                null,
+                null, // 패스워드는 보호하도록 null
                 this.email,
                 this.realName,
                 authority.getAuthorityName()
