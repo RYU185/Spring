@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,11 +34,14 @@ public class User {
     @Column(name="created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "last_login")
+    @Column(name = "last_login", updatable = false)
     private LocalDateTime lastLoginDate;
 
     @ManyToOne
     @JoinColumn(name = "user_authority")
     private Authority authority;
+
+    @ManyToMany(mappedBy = "userList")
+    private List<Course> courseList = new ArrayList<>();
 
 }

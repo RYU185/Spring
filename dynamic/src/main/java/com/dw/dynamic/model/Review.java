@@ -14,4 +14,5 @@ import lombok.Setter;
 @Table
 @Entity
 public class Review {
+
 }

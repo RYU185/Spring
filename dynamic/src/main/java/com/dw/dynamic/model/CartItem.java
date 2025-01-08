@@ -28,6 +28,6 @@ public class CartItem {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @Column(name = "addedDate")
+    @Column(name = "addedDate", updatable = false)
     private LocalDateTime addedDate;
 }

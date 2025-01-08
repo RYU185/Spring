@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Table
 @Entity
 public class Cart {
-
     @Id
     @Column(name = "cart_id")
     private String cartId;
@@ -24,6 +23,6 @@ public class Cart {
     @JoinColumn(name = "user_name")
     private User user;
 
-    @Column(name = "created_date")
+    @Column(name = "created_date" , updatable = false)
     private LocalDateTime createdDate;
 }
