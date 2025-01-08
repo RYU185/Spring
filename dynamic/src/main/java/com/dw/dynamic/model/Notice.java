@@ -13,5 +13,6 @@ import lombok.Setter;
 @Setter
 @Table
 @Entity
+
 public class Notice {
 }
