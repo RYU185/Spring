@@ -1,20 +1,25 @@
 package com.dw.dynamic.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table
+@ToString
 @Entity
+@Table(name = "deduction")
 public class Deduction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long deductionName;
 
+    @Column(name = "formula")
+    private String formula;
+
+    @OneToOne(mappedBy = "payrollTemplate")
+    private PayrollTemplate payrollTemplate;
 
 
 }

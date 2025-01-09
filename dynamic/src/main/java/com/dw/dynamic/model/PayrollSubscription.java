@@ -10,13 +10,13 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
-@Table(name = "authority")
-public class Authority {
+@ToString
+public class PayrollSubscription extends Product {
+
     @Id
-    @Column(name = "authority_name", length = 50)
-    private String authorityName;
+    @Column(name = "sub_payroll_name")
+    private String subPayrollName;
 
 
 }

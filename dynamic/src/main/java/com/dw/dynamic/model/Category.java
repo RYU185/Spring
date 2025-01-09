@@ -2,7 +2,8 @@ package com.dw.dynamic.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.mapping.Join;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,13 +11,9 @@ import org.hibernate.mapping.Join;
 @Setter
 @ToString
 @Entity
-@Table(name = "notice")
-public class Notice {
+@Table
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long noticeId;
-
-    @ManyToOne
-    @JoinColumn(name = "userName")
-    private User user;
+    private Long id;
 }

@@ -1,11 +1,7 @@
 package com.dw.dynamic.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.cglib.core.Local;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,25 +11,17 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table
+@ToString
 @Entity
-public class Course {
+public class Course extends Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title", nullable = false)
-    private String title;
-
-    @Column(name = "description")
+    @Column(name = "upload_date",length = 500, updatable = false)
     private String description;
-
-    @Column(name = "price")
-    private int price;
-
-    @Column(name = "upload_date", updatable = false)
-    private LocalDateTime uploadDate;
 
     @ManyToMany
     @JoinTable(name = "course_user",

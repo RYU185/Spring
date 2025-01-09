@@ -1,10 +1,7 @@
 package com.dw.dynamic.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,18 +9,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table
+@ToString
 @Entity
-public class FAQ {
+@Table(name = "FAQ")
+public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String FAQId;
+    private Long id;
 
-    @Column(name = "question")
-    private String question;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "answer", nullable = false, length = 3000)
-    private String answer;
+    private boolean answer;
 
     @Column(name = "add_date", updatable = false)
     private LocalDateTime addDate;

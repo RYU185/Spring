@@ -1,17 +1,21 @@
 package com.dw.dynamic.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table
+@ToString
 @Entity
+@Table(name = "payment")
 public class Payment {
+    @Id
+    @Column(name = "payment_name")
+    private String paymentName;
+
+    @ManyToOne
+    @JoinColumn(name = "cart")
+    private Cart cart;
 }
