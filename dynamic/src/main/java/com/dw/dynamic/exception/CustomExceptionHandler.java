@@ -1,4 +1,4 @@
-package dw.gameshop.exception;
+package com.dw.dynamic.exception;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -46,5 +46,14 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(
                 errors,
                 HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<Map<String,String>> handleIllegalArgumentException(IllegalArgumentException ex){
+        Map<String, String> errors = Map.of("Illegal Argument",
+                (ex.getMessage() !=null ? ex.getMessage() : "No Exception Message"));
+        return new ResponseEntity<>(
+                errors,
+                HttpStatus.BAD_REQUEST);
     }
 }
