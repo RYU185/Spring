@@ -1,10 +1,10 @@
 package com.dw.dynamic.model;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,24 +12,24 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@Table(name = "cart")
-public class
+@Table
+public class Comment {
 
-
-
-Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cartId;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_name")
-    private User user;
+    @JoinColumn(name = "board_id")
+    private Board board_fk;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Column(name = "text")
+    private String text;
+
+    @Column(name = "add_date")
+    private LocalDate addDate;
 
     @Column(name="is_active")
     private Boolean isActive = true;
+
 }

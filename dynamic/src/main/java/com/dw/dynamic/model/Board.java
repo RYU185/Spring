@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,22 +13,28 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
-@Table(name = "FAQ")
+@Table(name = "board")
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title",nullable = false)
     private String title;
 
     @Column(name = "answer", nullable = false, length = 3000)
-    private boolean answer;
+    private Boolean answer = false; // 관리자 답변 여부
 
     @Column(name = "add_date", updatable = false)
-    private LocalDateTime addDate;
+    private LocalDateTime addDate; // 작성일
+
+    @Column(name="is_active")
+    private Boolean isActive = true;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user;
+    private User user; // 유저(단방향)
+
+    @OneToMany(mappedBy = "board_fk")
+    private List<Comment> commentList = new ArrayList<>();
 }

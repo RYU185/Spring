@@ -14,32 +14,33 @@ import java.time.LocalDate;
 @Table(name = "employee")
 public class Employee {
     @Id
-    @Column(name = "employeeId")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "company_name")
-    private String companyName;
-
     @Column(name = "department")
-    private String department;
+    private String department; // 부서명
 
     @Column(name = "position")
-    private String position;
+    private String position; // 직위
 
-    @Column(name = "hire_date", nullable = false)
-    private LocalDate hireDate;
+    @Column(name = "hire_date", nullable = false, updatable = false)
+    private LocalDate hireDate; // 입사일
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name="is_active")
+    private Boolean isActive = true;
+
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user;
+    private User user; // 단방향
 
-    @OneToOne(mappedBy = "payroll_template")
-    private PayrollTemplate payrollTemplate;
+    @OneToOne
+    @JoinColumn(name = "payroll_template")
+    private PayrollTemplate payrollTemplate_fk;
 
 }

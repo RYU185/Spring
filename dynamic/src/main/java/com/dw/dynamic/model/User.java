@@ -1,5 +1,6 @@
 package com.dw.dynamic.model;
 
+import com.dw.dynamic.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,14 +19,21 @@ import java.util.List;
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name="user_id")
-    private String id;
+    @Column(name="user_name")
+    private String userName;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "company_name")
+    private String companyName;
+
+    @Column(name = "real_name", nullable = false)
+    private String realName;
 
     @Column(name="password", nullable = false)
     private String password;
+
+    @Column(name = "gender",nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Gender gender; // ENUM 수정 필요
 
     @Column(name="email", nullable = false, unique = true)
     private String email;
@@ -34,40 +42,18 @@ public class User {
     private String phoneNumber;
 
     @Column(name = "business_number")
-    private String businessNumber;
+    private String businessNumber; // 사업자번호
 
     @Column(name = "business_type")
-    private String businessType;
+    private String businessType; // 업종
 
-    @Column(name = "exist_business_operator")
-    private boolean existBusinessOperator;
+    @Column(name = "exist_business_operator", nullable = false)
+    private Boolean existBusinessOperator= false; // 기존 사업자 여부
 
     @Column(name = "point")
-    private int point;
-
-    @ManyToMany(mappedBy = "userList")
-    private List<Course> courseList = new ArrayList<>();
-
-
-    @OneToOne(mappedBy = "user")
-    private Cart cart; // 장바구니
+    private Long point;
 
     @ManyToOne
     @JoinColumn(name = "user_authority")
     private Authority authority; // 권한
-
-    @OneToMany(mappedBy = "guide")
-    private List<Guide> guide; // 가이드
-
-    @OneToMany(mappedBy = "notice")
-    private List<Notice> notice; // 공지사항
-
-    @OneToMany(mappedBy = "review")
-    private List<Review> review;  // 리뷰
-
-    @OneToMany(mappedBy = "board")
-    private List<Board> board;  // 게시판
-
-    @OneToMany(mappedBy = "employee")
-    private List<Employee> employee; // 직원 관리
 }

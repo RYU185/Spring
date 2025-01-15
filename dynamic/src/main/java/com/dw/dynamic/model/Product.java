@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "product")
 public class Product {
 
@@ -20,15 +21,14 @@ public class Product {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "price")
-    private double price;
+    @Column(name = "price",nullable = false)
+    private Double price;
 
     @ManyToOne
-    @JoinColumn(name = "category")
-    private Category category;
+    @JoinColumn(name = "category_name")
+    private Category category; // 제품 - 카테고리 (단방향)
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+
+
 
 }

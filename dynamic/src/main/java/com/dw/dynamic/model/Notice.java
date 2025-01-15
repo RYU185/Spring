@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.mapping.Join;
 
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,7 +21,14 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticeId;
 
-    @ManyToOne
-    @JoinColumn(name = "userName")
-    private User user;
+    @Column(name = "notice_title", length = 3000, nullable = false)
+    private String noticeTitle; // 제목
+
+    @Column(name ="text",length = 3000, nullable = false)
+    private String text; // 본문
+
+    @Column(name = "add_date", nullable = false)
+    private LocalDate addDate; // 작성일자
+
+
 }

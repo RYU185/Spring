@@ -3,33 +3,24 @@ package com.dw.dynamic.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "cart")
-public class
+@Table(name = "user_product") // 현재 사용중인 제품
+public class UserProduct {
 
-
-
-Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cartId;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_name")
+    @JoinColumn(name ="user_name")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
-    @Column(name="is_active")
-    private Boolean isActive = true;
 }
