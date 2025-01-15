@@ -55,4 +55,6 @@ public class BoardService {
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("게시판 글이 없습니다. ID : " + id));
     }
+
+    
 }
