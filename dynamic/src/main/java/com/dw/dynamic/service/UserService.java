@@ -158,6 +158,8 @@ public class UserService {
         ) {
             throw new InvalidRequestException("이름, 이메일, 전화번호 이외로는 수정이 불가능합니다");
         }
+        return userRepository.save(currentUser).toDTO();
+    }
 
         public UserDTO saveUserBusinessNumber(UserDTO userDTO){ // 사업자번호 등록
             User user = new User(
@@ -178,4 +180,4 @@ public class UserService {
             return userRepository.save(user).toDTO();
         }
     }
-}
+
