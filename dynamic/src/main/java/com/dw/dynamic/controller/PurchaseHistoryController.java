@@ -29,11 +29,10 @@ public class PurchaseHistoryController {
                 HttpStatus.OK);
     }
 
-//    @GetMapping("/product-name/{product-name}")
-//    public ResponseEntity<List<PurchaseHistoryDTO>> getPurchaseHistoryByProductName(String productName) {
-//        return new ResponseEntity<>(
-//                purchaseHistoryService.getPurchaseHistoryByProductName(productName),
-//                HttpStatus.OK);
-//    }
-
+    @GetMapping("/product-id/{productName}")
+    public ResponseEntity<List<PurchaseHistoryDTO>> getPurchaseHistoryByProductName(String productName){
+        return new ResponseEntity<>(
+                purchaseHistoryService.getPurchaseHistoryByProductName(productName),
+                HttpStatus.OK);
+    }
 }

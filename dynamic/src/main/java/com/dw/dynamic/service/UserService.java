@@ -67,7 +67,7 @@ public class UserService {
     public User getCurrentUser(HttpServletRequest request) {
         HttpSession session = request.getSession(false);  // 세션이 없으면 예외 처리
         if (session == null) {
-            throw new UnauthorizedUserException("No Session exist");
+            throw new UnauthorizedUserException("세션이 존재하지 않습니다.");
         }
         String userName = (String) session.getAttribute("username");  // 세션에서 유저네임 반환
         return userRepository.findById(userName)
@@ -145,53 +145,59 @@ public class UserService {
     public UserDTO ModifyUserData(UserDTO userDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
         User currentUser = userRepository.findById(userDTO.getUserName())
                 .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 유저 ID 입니다"));
-        if(!"USER".equals(currentUser.getAuthority().getAuthorityName()) //
+        if (!"USER".equals(currentUser.getAuthority().getAuthorityName()) //
         ) {
             throw new InvalidRequestException("이름, 이메일, 전화번호 이외로는 수정이 불가능합니다");
         }
-        if (userDTO.getRealName()!=null){
+        if (userDTO.getRealName() != null) {
             currentUser.setRealName(userDTO.getRealName());
         }
-        if (userDTO.getEmail()!=null){
+        if (userDTO.getEmail() != null) {
             currentUser.setEmail(userDTO.getEmail());
         }
-        if (userDTO.getPhoneNumber()!=null){
+        if (userDTO.getPhoneNumber() != null) {
             currentUser.setPhoneNumber(userDTO.getPhoneNumber());
         }
         return userRepository.save(currentUser).toDTO();
     }
 
-    public UserDTO saveUserBusinessNumber(UserDTO userDTO){ // 사업자번호 등록
+    public UserDTO saveUserBusinessNumber(UserDTO userDTO) { // 사업자번호 등록
         User currentUser = userRepository.findById(userDTO.getUserName())
-                .orElseThrow(()-> new ResourceNotFoundException("존재하지 않는 유저 ID입니다"));
+                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 유저 ID입니다"));
         if (!"USER".equals(currentUser.getAuthority().getAuthorityName())
         ) {
             throw new InvalidRequestException("사업자번호를 수정할 권한이 없습니다");
         }
-        if (userDTO.getBusinessNumber()!=null){
+        if (userDTO.getBusinessNumber() != null) {
             currentUser.setBusinessNumber(userDTO.getBusinessNumber());
         }
         return userRepository.save(currentUser).toDTO();
     }
 
-    public UserDTO addPoint(UserDTO userDTO){
-        if (userDTO.getUserName() == null){
-            throw new IllegalArgumentException("정상적인 요청이 아닙니다");
+    public UserDTO addPoint(UserDTO userDTO) {
+        User currentUser = userRepository.findById(userDTO.getUserName())
+                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 유저 ID입니다"));
+        if (!"USER".equals(currentUser.getAuthority().getAuthorityName())
+        ) {
+            throw new IllegalArgumentException("포인트 적립은 회원만 가능합니다");
         }
-        User user = userRepository.findById(userDTO.getUserName())
-                .orElse(new User());
-        return null;
-        // SETTER 없음?
+        currentUser.setPoint(currentUser.getPoint() + userDTO.getPoint());
+        return userRepository.save(currentUser).toDTO();
     }
 
-    public UserDTO userPoint(UserDTO userDTO){
-        if (userDTO.getUserName() == null || userDTO.getPoint()<=0 ){
-            throw new IllegalArgumentException("정상적인 요청이 아닙니다");
+    public UserDTO usePoint(UserDTO userDTO) {
+        User currentUser = userRepository.findById(userDTO.getUserName())
+                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 유저 ID입니다"));
+        if (!"USER".equals(currentUser.getAuthority().getAuthorityName())
+        ) {
+            throw new IllegalArgumentException("포인트 사용은 회원만 가능합니다");
         }
-        User user = userRepository.findById(userDTO.getUserName())
-                .orElse(new User());
-        return null;
+        if (userDTO.getPoint() <= 0 ){
+            throw new InvalidRequestException("포인트가 부족하여 사용하실 수 없습니다");
         }
+        currentUser.setPoint(currentUser.getPoint() - userDTO.getPoint());
+        return userRepository.save(currentUser).toDTO();
     }
+}
 
 
