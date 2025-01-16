@@ -182,13 +182,22 @@ public class UserService {
 
     public UserDTO addPoint(UserDTO userDTO){
         if (userDTO.getUserName() == null){
-            throw new com.dw.dynamic.exception.IllegalArgumentException("정상적인 요청이 아닙니다");
+            throw new IllegalArgumentException("정상적인 요청이 아닙니다");
         }
         User user = userRepository.findById(userDTO.getUserName())
                 .orElse(new User());
-
         return null;
-        // SETTER 없음
+        // SETTER 없음?
     }
-}
+
+    public UserDTO userPoint(UserDTO userDTO){
+        if (userDTO.getUserName() == null || userDTO.getPoint()<=0 ){
+            throw new IllegalArgumentException("정상적인 요청이 아닙니다");
+        }
+        User user = userRepository.findById(userDTO.getUserName())
+                .orElse(new User());
+        return null;
+        }
+    }
+
 

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +23,6 @@ public class CommentDTO {
 
     private String text;
 
-    private LocalDate addDate;
+    private LocalDateTime addDate;
 
 }

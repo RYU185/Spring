@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +29,7 @@ public class Comment {
     private String text;
 
     @Column(name = "add_date")
-    private LocalDate addDate;
+    private LocalDateTime addDate;
 
     @Column(name="is_active")
     private Boolean isActive = true;
