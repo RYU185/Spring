@@ -3,6 +3,7 @@ package com.dw.dynamic.controller;
 import com.dw.dynamic.DTO.CategoryEnrollmentAndIncomeDTO;
 import com.dw.dynamic.DTO.CourseEnrollmentAndIncomeDTO;
 import com.dw.dynamic.DTO.PayrollSubscriptionsEnrollmentAndIncomeDTO;
+import com.dw.dynamic.model.Course;
 import com.dw.dynamic.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

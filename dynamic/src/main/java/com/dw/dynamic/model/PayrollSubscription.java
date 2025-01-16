@@ -28,10 +28,4 @@ public class PayrollSubscription extends Product {
     @Column(name="expire_date", updatable = false)
     private LocalDate expireDate; // 구독 만료일
 
-
-
-
-
-
-
 }
