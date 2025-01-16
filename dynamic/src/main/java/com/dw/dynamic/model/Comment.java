@@ -37,7 +37,7 @@ public class Comment {
     public CommentDTO toDTO(){
         return new CommentDTO(
                 this.id,
-                this.board_fk.getTitle(),
+                this.board_fk,
                 this.text,
                 this.addDate
         );

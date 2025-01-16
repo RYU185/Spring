@@ -3,7 +3,6 @@ package com.dw.dynamic.service;
 import com.dw.dynamic.DTO.PurchaseHistoryDTO;
 import com.dw.dynamic.exception.ResourceNotFoundException;
 import com.dw.dynamic.model.PurchaseHistory;
-import com.dw.dynamic.model.User;
 import com.dw.dynamic.repository.PurchaseHistoryRepository;
 import com.dw.dynamic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

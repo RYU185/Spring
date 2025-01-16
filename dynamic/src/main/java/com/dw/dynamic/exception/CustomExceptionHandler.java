@@ -30,7 +30,7 @@ public class CustomExceptionHandler {
                 HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UnauthorizedUserException.class)
+    @ExceptionHandler(UnauthorizedUserException.class)  // 인증 실패(로그인 실패)
     protected ResponseEntity<Map<String, String>> handleUnauthorizedUserException(UnauthorizedUserException ex) {
         Map<String, String> errors = Map.of("ERROR",
                 (ex.getMessage() != null ? ex.getMessage() : "No Exception Message"));
@@ -39,21 +39,12 @@ public class CustomExceptionHandler {
                 HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(PermissionDeniedException.class)
+    @ExceptionHandler(PermissionDeniedException.class)  // 권한이 없을때
     protected ResponseEntity<Map<String, String>> handlePermissionDeniedException(PermissionDeniedException ex) {
         Map<String, String> errors = Map.of("Permission Denied",
                 (ex.getMessage() != null ? ex.getMessage() : "No Exception Message"));
         return new ResponseEntity<>(
                 errors,
                 HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    protected ResponseEntity<Map<String,String>> handleIllegalArgumentException(IllegalArgumentException ex){
-        Map<String, String> errors = Map.of("Illegal Argument",
-                (ex.getMessage() !=null ? ex.getMessage() : "No Exception Message"));
-        return new ResponseEntity<>(
-                errors,
-                HttpStatus.BAD_REQUEST);
     }
 }

@@ -4,7 +4,6 @@ import com.dw.dynamic.DTO.BoardDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,9 @@ public class Board {
     @Column(name = "add_date", updatable = false)
     private LocalDateTime addDate; // 작성일
 
+    @Column(name = "modify_date")
+    private LocalDateTime modifyDate;
+
     @Column(name="is_active")
     private Boolean isActive = true;
 
@@ -45,7 +47,8 @@ public class Board {
                 this.id,
                 this.title,
                 this.answer,
-                this.addDate,
+//                this.addDate,
+                this.modifyDate,
                 this.user.getUserName()
         );
     }

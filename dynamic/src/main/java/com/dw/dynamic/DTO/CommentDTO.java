@@ -19,10 +19,9 @@ public class CommentDTO {
 
     private Long id;
 
-    private String boardTitle;
+    private BoardDTO board;
 
     private String text;
 
     private LocalDateTime addDate;
-
 }

@@ -3,7 +3,6 @@ import com.dw.dynamic.DTO.UserDTO;
 import com.dw.dynamic.enums.Gender;
 import com.dw.dynamic.exception.PermissionDeniedException;
 import com.dw.dynamic.exception.UnauthorizedUserException;
-import com.dw.dynamic.model.Authority;
 import com.dw.dynamic.model.User;
 import com.dw.dynamic.repository.AuthorityRepository;
 import com.dw.dynamic.repository.UserRepository;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Service;
 import com.dw.dynamic.exception.InvalidRequestException;
 import com.dw.dynamic.exception.ResourceNotFoundException;
 
-import java.io.InvalidClassException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 

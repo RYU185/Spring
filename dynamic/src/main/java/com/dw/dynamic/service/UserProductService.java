@@ -1,10 +1,7 @@
 package com.dw.dynamic.service;
 
-import com.dw.dynamic.DTO.UserDTO;
 import com.dw.dynamic.DTO.UserProductDTO;
 import com.dw.dynamic.exception.ResourceNotFoundException;
-import com.dw.dynamic.model.PurchaseHistory;
-import com.dw.dynamic.model.User;
 import com.dw.dynamic.model.UserProduct;
 import com.dw.dynamic.repository.PurchaseHistoryRepository;
 import com.dw.dynamic.repository.UserProductRepository;
