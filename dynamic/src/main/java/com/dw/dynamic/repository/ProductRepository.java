@@ -10,7 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product,String> {
-   // List<Product> findByTitleLike(String title);
+    @Query("select c from Course c where c.title like %:title%")
+    List<Product> findCourseByTitleLike(String title);
+
+    @Query("select ps from PayrollSubscription ps where ps.title like %:title%")
+    List<Product> findPayrollSubscriptionByTitleLike(String title);
+
 
     @Query("select com.dw.dynamic.DTO.CourseEnrollmentAndIncomeDTO(c.title,count(ph),sum(ph.product.price))" +
             "from Course c join PurchaseHistory ph on c.id = ph.product.id group by c.title")

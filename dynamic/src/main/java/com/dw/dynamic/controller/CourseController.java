@@ -1,6 +1,7 @@
 package com.dw.dynamic.controller;
 
 import com.dw.dynamic.DTO.CourseDTO;
+import com.dw.dynamic.DTO.ProductDTO;
 import com.dw.dynamic.model.Course;
 import com.dw.dynamic.repository.CourseRepository;
 import com.dw.dynamic.service.CourseService;
@@ -8,10 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +26,17 @@ public class CourseController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("id/{id}")
+    public ResponseEntity<Course> getCourseById(@PathVariable String id){
+        return new ResponseEntity<>(
+                courseService.getCourseById(id),
+                HttpStatus.OK
+        );
+    }
+
+
     @GetMapping("/title/{title}")
-    public ResponseEntity<List<Course>> getCoursesByTitle(String title){
+    public ResponseEntity<List<Course>> getCoursesByTitle(@PathVariable String title){
         return new ResponseEntity<>(
                 courseService.getCoursesByTitle(title),
                 HttpStatus.OK
@@ -37,10 +44,17 @@ public class CourseController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<CourseDTO> saveCourse(CourseDTO courseDTO){
+    public ResponseEntity<Course> saveCourse(@RequestBody Course course, HttpServletRequest request){
         return new ResponseEntity<>(
-                courseService.saveCourse(courseDTO),
+                courseService.saveCourse(course, request),
                 HttpStatus.CREATED
         );
+    }
+
+    @DeleteMapping("/title/{title}")
+    public ResponseEntity<String> deleteCourse(@PathVariable String title, HttpServletRequest request){
+        return new ResponseEntity<>(
+                courseService.deleteCourse(title, request),
+                HttpStatus.OK);
     }
 }

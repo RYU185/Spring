@@ -21,4 +21,6 @@ public class CourseDTO {
 
     private String description; // 상세 설명
 
+    private String productId;
+
 }

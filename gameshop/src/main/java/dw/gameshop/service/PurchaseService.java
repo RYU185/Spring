@@ -52,8 +52,8 @@ public class PurchaseService {
 
     // [관리자 권한] 유저별 구매내역 조회 - 관리자 권한이 있어야 확인 가능
     public List<PurchaseDTO> getPurchaseListByUserName(String userName, HttpServletRequest request) {
-        User currentUser = userService.getCurrentUser(request);
-        if (!currentUser.getAuthority().getAuthorityName().equals("ADMIN")) {
+                    User currentUser    = userService.getCurrentUser(request);
+                    if (!currentUser.getAuthority().getAuthorityName().equals("ADMIN")) {
             throw new PermissionDeniedException("권한이 없습니다.");
         }
         User user = userRepository.findById(userName)

@@ -1,11 +1,11 @@
 package com.dw.dynamic.model;
 
+import com.dw.dynamic.DTO.CourseDTO;
+import com.dw.dynamic.DTO.ProductDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
@@ -27,5 +27,4 @@ public class PayrollSubscription extends Product {
 
     @Column(name="expire_date", updatable = false)
     private LocalDate expireDate; // 구독 만료일
-
 }
