@@ -1,6 +1,6 @@
 package com.dw.dynamic.controller;
 
-import com.dw.dynamic.DTO.PayrollSubscriptionDTO;
+import com.dw.dynamic.DTO.PayrollSubscriptionsEnrollmentAndIncomeDTO;
 import com.dw.dynamic.model.PayrollSubscription;
 import com.dw.dynamic.service.PayrollSubscriptionService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,11 +33,5 @@ public class PayrollSubscriptionController {
         );
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<PayrollSubscription> savePayrollSubscription
-            (@RequestBody PayrollSubscription payrollSubscription, HttpServletRequest request){
-                return new ResponseEntity<>(
-                        payrollSubscriptionService.savePayrollSubscription(payrollSubscription,request),
-                        HttpStatus.CREATED);
-    }
 }
+

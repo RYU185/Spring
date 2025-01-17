@@ -17,9 +17,12 @@ import lombok.Setter;
 @Setter
 public class ProductDTO {
 
+
     private String id;
 
     private Double price;
 
     private String category;
+
+
 }

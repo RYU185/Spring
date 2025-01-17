@@ -25,13 +25,6 @@ public class UserController {
                 userService.registerUser(userDTO),
                 HttpStatus.CREATED);
     }
-
-    @GetMapping("/current-user")
-    public ResponseEntity<UserDTO> getCurrentUser(HttpServletRequest request) {
-        User user = userService.getCurrentUser(request);
-        return new ResponseEntity<>(user.toDTO(), HttpStatus.OK);
-    }
-
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUser(HttpServletRequest request){
         return new ResponseEntity<>(
@@ -112,17 +105,17 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/add/point/{id}")
+    @PostMapping("/add/point")
     public ResponseEntity<UserDTO> addPoint(@RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(
                 userService.addPoint(userDTO),
                 HttpStatus.OK);
     }
 
-    @PostMapping("/use/point/{id}")
-    public ResponseEntity<UserDTO> usePoint(@RequestBody UserDTO userDTO) {
-        return new ResponseEntity<>(
-                userService.usePoint(userDTO),
-                HttpStatus.OK);
-    }
+//    @PostMapping("/use/point")
+//    public ResponseEntity<UserDTO> usePoint(@RequestBody UserDTO userDTO) {
+//        return new ResponseEntity<>(
+//                userService.usePoint(userDTO),
+//                HttpStatus.OK);
+//    }
 }

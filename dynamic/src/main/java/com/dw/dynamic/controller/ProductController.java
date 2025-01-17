@@ -4,7 +4,6 @@ import com.dw.dynamic.DTO.CategoryEnrollmentAndIncomeDTO;
 import com.dw.dynamic.DTO.CourseEnrollmentAndIncomeDTO;
 import com.dw.dynamic.DTO.PayrollSubscriptionsEnrollmentAndIncomeDTO;
 import com.dw.dynamic.DTO.ProductDTO;
-import com.dw.dynamic.model.Course;
 import com.dw.dynamic.model.Product;
 import com.dw.dynamic.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,19 +36,20 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO productDTO, HttpServletRequest request){
-        return new ResponseEntity<>(productService.saveProduct(productDTO, request), HttpStatus.CREATED);
+    public ResponseEntity<Product> saveProduct(@RequestBody Product product, HttpServletRequest request){
+        return new ResponseEntity<>(productService.saveProduct(product, request), HttpStatus.CREATED);
     }
 
-    @GetMapping("payrollsubscription/enrollments-and-income")
-    public ResponseEntity<List<PayrollSubscriptionsEnrollmentAndIncomeDTO>> getPayrollSubscriptionsEnrollmentsAndIncomes(HttpServletRequest request){
+
+    @GetMapping("/payrollsubscription/enrollments-and-income")
+    public ResponseEntity<List<PayrollSubscriptionsEnrollmentAndIncomeDTO>> etPayrollSubscriptionsEnrollmentsAndIncomes(HttpServletRequest request){
         return new ResponseEntity<>(
                 productService.getPayrollSubscriptionsEnrollmentsAndIncomes(request),
                 HttpStatus.OK
         );
     }
 
-    @GetMapping("category/enrollments-and-income")
+    @GetMapping("/category/enrollments-and-income")
     public ResponseEntity<List<CategoryEnrollmentAndIncomeDTO>> getCategoryEnrollmentsAndIncomes(HttpServletRequest request){
         return new ResponseEntity<>(
                 productService.getCategoryEnrollmentsAndIncomes(request),
@@ -57,11 +57,15 @@ public class ProductController {
         );
     }
 
-    @GetMapping("courses/enrollments-and-income")
+    @GetMapping("/courses/enrollments-and-income")
     public ResponseEntity<List<CourseEnrollmentAndIncomeDTO>> getCoursesEnrollmentsAndIncomes(HttpServletRequest request){
         return new ResponseEntity<>(
                 productService.getCoursesEnrollmentsAndIncomes(request),
                 HttpStatus.OK
         );
+    }
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable String id, HttpServletRequest request){
+        return new ResponseEntity<>(productService.deleteProduct(id, request),HttpStatus.OK);
     }
 }

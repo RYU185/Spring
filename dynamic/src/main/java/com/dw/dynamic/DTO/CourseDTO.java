@@ -1,7 +1,5 @@
 package com.dw.dynamic.DTO;
 
-import com.dw.dynamic.model.Product;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

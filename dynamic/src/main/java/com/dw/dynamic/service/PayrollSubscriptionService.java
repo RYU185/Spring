@@ -1,6 +1,5 @@
 package com.dw.dynamic.service;
 
-import com.dw.dynamic.DTO.PayrollSubscriptionDTO;
 import com.dw.dynamic.exception.PermissionDeniedException;
 import com.dw.dynamic.exception.ResourceNotFoundException;
 import com.dw.dynamic.model.PayrollSubscription;
@@ -27,16 +26,7 @@ public class PayrollSubscriptionService {
 
     public PayrollSubscription getPayrollSubscriptionById(String id){
         return payrollSubscriptionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 제품ID 입니다 : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 제품ID 입니다 : " + id));
     }
 
-    public PayrollSubscription savePayrollSubscription(PayrollSubscription payrollSubscription, HttpServletRequest request){
-        User currentUser = userService.getCurrentUser(request);
-        if (!currentUser.getAuthority().getAuthorityName().equals("ADMIN")){
-            throw new PermissionDeniedException("권한이 없습니다.");
-        }
-        return payrollSubscriptionRepository.findById(payrollSubscription.getId())
-                .map(ps -> payrollSubscriptionRepository.save(payrollSubscription))
-                .orElseThrow(()-> new ResourceNotFoundException("없는 제품 ID입니다"));
-    }
 }

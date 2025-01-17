@@ -7,12 +7,10 @@ import com.dw.dynamic.model.Cart;
 import com.dw.dynamic.model.User;
 import com.dw.dynamic.repository.CartRepository;
 import com.dw.dynamic.repository.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @Service
@@ -67,3 +65,6 @@ public class CartService {
         return id + " 가 정상적으로 삭제되었습니다";
     }
 }
+
+
+

@@ -29,10 +29,10 @@ UserProductController {
                 HttpStatus.OK);
     }
 
-//    @GetMapping("/productName/{title}")
-//    public ResponseEntity<List<UserProductDTO>> getUserProductByProductName(@PathVariable String title) {
+//    @GetMapping("/product-id/{product-name}")
+//    public ResponseEntity<List<UserProductDTO>> getUserProductByProductName(@PathVariable String name) {
 //        return new ResponseEntity<>(
-//                userProductService.getUserProductByProductName(title),
+//                userProductService.getUserProductByProductName(name),
 //                HttpStatus.OK);
 //    }
 }

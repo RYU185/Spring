@@ -13,7 +13,6 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-
     @Autowired
     CategoryRepository categoryRepository;
     @Autowired
@@ -39,13 +38,13 @@ public class CategoryService {
         return categoryRepository.save(category1);
     }
 
-    public String deleteCategory(String id, HttpServletRequest request){
+    public String deleteCategory(String name, HttpServletRequest request){
         User currentUser = userService.getCurrentUser(request);
         if (!currentUser.getAuthority().getAuthorityName().equals("ADMIN")){
             throw new PermissionDeniedException("권한이 없습니다");
         }
 
-        Category category = categoryRepository.findById(id)
+        Category category = categoryRepository.findByName(name)
                 .orElseThrow(()-> new ResourceNotFoundException("존재하는 카테고리가 없습니다"));
 
         categoryRepository.delete(category);
