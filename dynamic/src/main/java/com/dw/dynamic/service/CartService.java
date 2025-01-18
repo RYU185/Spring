@@ -65,6 +65,7 @@ public class CartService {
         if (!cart.getUser().equals(currentUser)){
             throw new InvalidRequestException("장바구니는 로그인이 필요합니다");
         }
+
         cart.setIsActive(false);
         cartRepository.save(cart);
         return id + " 가 정상적으로 삭제되었습니다";
