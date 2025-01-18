@@ -47,7 +47,6 @@ public class CartService {
         cart.setProduct(productRepository.findById(cartDTO.getProduct().getId())
                 .orElseThrow(()-> new IllegalArgumentException("올바른 요청이 아닙니다")));
         cart.setIsActive(true);
-
         return cartRepository.save(cart).toDTO();
     }
 

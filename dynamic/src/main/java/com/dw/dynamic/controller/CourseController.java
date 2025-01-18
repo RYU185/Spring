@@ -24,7 +24,7 @@ public class CourseController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable String id){
         return new ResponseEntity<>(
                 courseService.getCourseById(id),
@@ -32,6 +32,13 @@ public class CourseController {
         );
     }
 
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<String> deleteCourse(@PathVariable String id, HttpServletRequest request){
+        return new ResponseEntity<>(
+                courseService.deleteCourse(id, request),
+                HttpStatus.OK
+        );
+    }
 
     @GetMapping("/title/{title}")
     public ResponseEntity<List<Course>> getCoursesByTitle(@PathVariable String title){
