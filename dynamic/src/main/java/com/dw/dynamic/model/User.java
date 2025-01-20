@@ -20,6 +20,7 @@ public class User {
     @Column(name="user_name")
     private String userName;
 
+    @Setter
     @Column(name = "company_name")
     private String companyName;
 
@@ -42,12 +43,16 @@ public class User {
     @Column(name = "phone_number",nullable = false, unique = true)
     private String phoneNumber;
 
+
+    @Setter
     @Column(name = "business_number")
     private String businessNumber; // 사업자번호
 
+    @Setter
     @Column(name = "business_type")
     private String businessType; // 업종
 
+    @Setter
     @Column(name = "exist_business_operator", nullable = false)
     private Boolean existBusinessOperator= false; // 기존 사업자 여부
 

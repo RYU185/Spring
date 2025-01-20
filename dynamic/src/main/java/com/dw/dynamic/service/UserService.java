@@ -144,6 +144,10 @@ public class UserService {
 
         public UserDTO ModifyUserData(UserDTO userDTO, HttpServletRequest request) { // 회원 정보 수정(이름, 이메일, 전화번호)
             User currentUser = getCurrentUser(request);
+            if (currentUser == null){
+                throw new IllegalArgumentException("올바르지 않은 접근입니다");
+            }
+
 
             //이름, 이메일, 전화번호 이외는 수정이 불가능
             if (userDTO.getRealName() !=null){
@@ -184,23 +188,49 @@ public class UserService {
             return userRepository.save(currentUser).toDTO();
     }
 
-        public UserDTO saveUserBusinessNumber(UserDTO userDTO){ // 사업자번호 등록
-            User user = new User(
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    userDTO.getBusinessNumber(),
-                    userDTO.getBusinessType(),
-                    userDTO.isExistBusinessOperator(),
-                    userDTO.getPoint(),
-                    authorityRepository.findById("USER")
-                            .orElseThrow(() -> new ResourceNotFoundException("권한이 없습니다"))
-            );
-            return userRepository.save(user).toDTO();
+        public UserDTO saveUserBusinessNumber(UserDTO userDTO, HttpServletRequest request){ // 사업자번호 등록
+            User currentUser = getCurrentUser(request);
+            if (currentUser == null){
+                throw new IllegalArgumentException("올바르지 않은 접근입니다");
+            }
+
+            if (userDTO.getRealName() !=null){
+                throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
+            }
+            if (userDTO.getEmail()!=null){
+                throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
+            }
+            if (userDTO.getPhoneNumber()!=null){
+                throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
+            }
+
+            if (userDTO.getUserName() !=null){
+                throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
+            }
+            if (userDTO.getRole() !=null){
+                throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
+            }
+            if (userDTO.getPassword() !=null){
+                throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
+            }
+            if (userDTO.getGender() !=null){
+                throw new IllegalArgumentException("성별은 수정할 수 없습니다.");
+            }
+            if (userDTO.getPoint() != 0){
+                throw new IllegalArgumentException("포인트는 수정할 수 없습니다.");
+            }
+
+            if (userDTO.getBusinessNumber() !=null){
+                currentUser.setBusinessNumber(userDTO.getBusinessNumber());
+            }
+            if (userDTO.getBusinessType() !=null){
+                currentUser.setBusinessType(userDTO.getBusinessType());
+            }
+            if (userDTO.getCompanyName() !=null){
+                currentUser.setCompanyName(userDTO.getCompanyName());
+            }
+
+            return userRepository.save(currentUser).toDTO();
     }
 
     public UserDTO addPoint(UserDTO userDTO) {

@@ -99,9 +99,9 @@ public class UserController {
     }
 
     @PostMapping("/user-business-number")
-    public ResponseEntity<UserDTO> saveUserBusinessNumber(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> saveUserBusinessNumber(@RequestBody UserDTO userDTO, HttpServletRequest request) {
         return new ResponseEntity<>(
-                userService.saveUserBusinessNumber(userDTO),
+                userService.saveUserBusinessNumber(userDTO, request),
                 HttpStatus.OK);
     }
 

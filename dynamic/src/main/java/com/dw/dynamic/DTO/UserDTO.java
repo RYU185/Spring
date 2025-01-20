@@ -3,10 +3,7 @@ package com.dw.dynamic.DTO;
 import com.dw.dynamic.enums.Gender;
 import com.dw.dynamic.model.Authority;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,7 +35,4 @@ public class UserDTO {
 
     private String role; // 권한
 
-    public void setPoint(long point) {
-        this.point = point;
-    }
 }
