@@ -27,6 +27,9 @@ public class CartService {
 
     public List<CartDTO> getAllCarts(HttpServletRequest request){
         User currentUser = userService.getCurrentUser(request);
+        if (currentUser == null){
+            throw new IllegalArgumentException("올바르지 않은 접근입니다");
+        }
         return cartRepository.findByUser(currentUser).stream().map(Cart::toDTO).toList();
     }
 
