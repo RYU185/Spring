@@ -1,6 +1,5 @@
 package com.dw.dynamic.service;
 
-import com.dw.dynamic.exception.InvalidRequestException;
 import com.dw.dynamic.exception.PermissionDeniedException;
 import com.dw.dynamic.exception.ResourceNotFoundException;
 import com.dw.dynamic.model.Course;
@@ -31,10 +30,8 @@ public class CourseService {
     }
 
     public Course getCourseById(String id) {
-        if (courseRepository.findById(id).isEmpty()){
-            throw new ResourceNotFoundException("존재하지 않는 제품 ID입니다: "+ id);
-        }
-        return courseRepository.findById(id).orElseThrow(()-> new InvalidRequestException("정상적인 요청이 아닙니다"));
+        return courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 제품ID입니다 : " + id));
     }
 
     public List<Course> getCoursesByTitle(String title) {

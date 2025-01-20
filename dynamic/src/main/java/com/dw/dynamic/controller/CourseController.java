@@ -24,10 +24,19 @@ public class CourseController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("id/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable String id){
         return new ResponseEntity<>(
                 courseService.getCourseById(id),
+                HttpStatus.OK
+        );
+    }
+
+
+    @GetMapping("/title/{title}")
+    public ResponseEntity<List<Course>> getCoursesByTitle(@PathVariable String title){
+        return new ResponseEntity<>(
+                courseService.getCoursesByTitle(title),
                 HttpStatus.OK
         );
     }
@@ -36,14 +45,6 @@ public class CourseController {
     public ResponseEntity<String> deleteCourse(@PathVariable String id, HttpServletRequest request){
         return new ResponseEntity<>(
                 courseService.deleteCourse(id, request),
-                HttpStatus.OK
-        );
-    }
-
-    @GetMapping("/title/{title}")
-    public ResponseEntity<List<Course>> getCoursesByTitle(@PathVariable String title){
-        return new ResponseEntity<>(
-                courseService.getCoursesByTitle(title),
                 HttpStatus.OK
         );
     }
