@@ -1,4 +1,5 @@
 package com.dw.dynamic.service;
+import com.dw.dynamic.DTO.PasswordDTO;
 import com.dw.dynamic.DTO.UserDTO;
 import com.dw.dynamic.enums.Gender;
 import com.dw.dynamic.exception.PermissionDeniedException;
@@ -131,15 +132,25 @@ public class UserService {
         return user.toDTO();
     }
 
-    public UserDTO ModifyPwByIDAndPhoneNumber(String id, String phoneNumber) {
-        // 아이디와 전화번호를 통해 임시비밀번호 전송하여 비밀번호 수정
-        Optional<User> user = userRepository.findById(id);
-        User user1 = user.orElseThrow(() -> new ResourceNotFoundException("찾을 수 없는 ID입니다"));
-
-        if (!user1.getPhoneNumber().equals(phoneNumber)) {
-            throw new InvalidRequestException("옳지 않은 전화번호 입니다.");
+    public UserDTO ModifyPw(PasswordDTO passwordDTO, HttpServletRequest request) {
+        User currentUser = getCurrentUser(request);
+        if (currentUser == null){
+            throw new IllegalArgumentException("올바르지 않은 접근입니다");
         }
-        return null;
+        if (passwordDTO.getCurrentPassword() == null) {
+            throw new IllegalArgumentException("현재 비밀번호를 입력해 주세요.");
+        }
+        if (!passwordEncoder.matches(passwordDTO.getCurrentPassword(), currentUser.getPassword())) {
+            throw new IllegalArgumentException("현재 비밀번호가 올바르지 않습니다.");
+        }
+
+        if (!passwordDTO.getNewPassword().equals(passwordDTO.getConfirmNewPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+        }
+
+        currentUser.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
+        userRepository.save(currentUser);
+        return currentUser.toDTO();
     }
 
         public UserDTO ModifyUserData(UserDTO userDTO, HttpServletRequest request) { // 회원 정보 수정(이름, 이메일, 전화번호)
@@ -147,7 +158,6 @@ public class UserService {
             if (currentUser == null){
                 throw new IllegalArgumentException("올바르지 않은 접근입니다");
             }
-
 
             //이름, 이메일, 전화번호 이외는 수정이 불가능
             if (userDTO.getRealName() !=null){
