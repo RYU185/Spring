@@ -52,16 +52,16 @@ public class EmployeeController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<EmployeeDTO> saveEmployee(@RequestBody EmployeeDTO employeeDTO,HttpServletRequest request) {
-        return new ResponseEntity<>(
-                employeeService.saveEmployee(employeeDTO,request),
-                HttpStatus.OK);
-    }
-    @PostMapping("/delete")
-    public ResponseEntity<String>deleteEmployee(@RequestParam Long id, @RequestParam String name,HttpServletRequest request) {
-        return new ResponseEntity<>(
-                employeeService.deleteEmployee(id,name,request),
-                HttpStatus.OK);
-    }
+//    @PostMapping("/save")
+//    public ResponseEntity<EmployeeDTO> saveEmployee(@RequestBody EmployeeDTO employeeDTO,HttpServletRequest request) {
+//        return new ResponseEntity<>(
+//                employeeService.saveEmployee(employeeDTO,request),
+//                HttpStatus.OK);
+//    }
+//    @PostMapping("/delete")
+//    public ResponseEntity<String>deleteEmployee(@RequestParam Long id, @RequestParam String name,HttpServletRequest request) {
+//        return new ResponseEntity<>(
+//                employeeService.deleteEmployee(id,name,request),
+//                HttpStatus.OK);
+//    }
 }

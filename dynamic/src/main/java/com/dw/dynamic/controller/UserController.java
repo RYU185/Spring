@@ -92,9 +92,9 @@ public class UserController {
     }
 
     @PostMapping("/user-data")
-    public ResponseEntity<UserDTO> ModifyUserData(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> ModifyUserData(@RequestBody UserDTO userDTO, HttpServletRequest request) {
         return new ResponseEntity<>(
-                userService.ModifyUserData(userDTO),
+                userService.ModifyUserData(userDTO, request),
                 HttpStatus.OK);
     }
 

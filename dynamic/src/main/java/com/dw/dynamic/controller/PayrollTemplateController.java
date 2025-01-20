@@ -16,12 +16,12 @@ public class PayrollTemplateController {
     @Autowired
     PayrollTemplateService payrollTemplateService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<PayrollTemplateDTO>> getAllPayrollTemplates(HttpServletRequest request) {
-        return new ResponseEntity<>(
-                payrollTemplateService.getAllPayrollTemplates(request),
-                HttpStatus.OK);
-    }
+//    @GetMapping("/all")
+//    public ResponseEntity<List<PayrollTemplateDTO>> getAllPayrollTemplates(HttpServletRequest request) {
+//        return new ResponseEntity<>(
+//                payrollTemplateService.getAllPayrollTemplates(request),
+//                HttpStatus.OK);
+//    }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<PayrollTemplateDTO> getPayrollTemplateById(@PathVariable Long id) {

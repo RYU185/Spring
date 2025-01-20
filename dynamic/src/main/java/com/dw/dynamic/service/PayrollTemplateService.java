@@ -35,19 +35,19 @@ public class PayrollTemplateService {
     UserService userService;
 
 
-    public List<PayrollTemplateDTO> getAllPayrollTemplates(HttpServletRequest request){
-        User currentUser = userService.getCurrentUser(request);
-        try {
-            if (payrollTemplateRepository.findByUser(currentUser).isEmpty()){
-                throw new ResourceNotFoundException("작성한 급여명세서 양식이 없습니다");
-            }else {
-                return payrollTemplateRepository.findByUser(currentUser).stream()
-                        .map(PayrollTemplate::toDTO).toList();
-            }
-        }catch (InvalidRequestException e){
-            throw new InvalidRequestException("정상적인 요청이 아닙니다");
-        }
-    }
+//    public List<PayrollTemplateDTO> getAllPayrollTemplates(HttpServletRequest request){
+//        User currentUser = userService.getCurrentUser(request);
+//        try {
+//            if (payrollTemplateRepository.findByUser(currentUser).isEmpty()){
+//                throw new ResourceNotFoundException("작성한 급여명세서 양식이 없습니다");
+//            }else {
+//                return payrollTemplateRepository.findByUser(currentUser).stream()
+//                        .map(PayrollTemplate::toDTO).toList();
+//            }
+//        }catch (InvalidRequestException e){
+//            throw new InvalidRequestException("정상적인 요청이 아닙니다");
+//        }
+//    }
 
     public PayrollTemplateDTO getPayrollTemplateById(Long id){
         return payrollTemplateRepository.findById(id).map(PayrollTemplate::toDTO).orElseThrow(()->new InvalidRequestException("존재하지 않은 ID입니다"));

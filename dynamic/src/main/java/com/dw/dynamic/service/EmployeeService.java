@@ -94,34 +94,35 @@ public class EmployeeService {
         }
     }
 
-    public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO,HttpServletRequest request) {
-        return employeeRepository.findById(employeeDTO.getId())
-                .map((employee) -> {
-                    return employeeRepository.save(employee).toDTO();
-                })
-                .orElseGet(() -> {
-                    Employee employee = new Employee(
-                            null,
-                            employeeDTO.getName(),
-                            employeeDTO.getDepartment(),
-                            employeeDTO.getPosition(),
-                            employeeDTO.getHireDate(),
-                            employeeDTO.getPhoneNumber(),
-                            true,
-                            userRepository.findById(employeeDTO.getUserName()).orElseThrow(() -> new ResourceNotFoundException("유저ID 오류")),
-                            payrollTemplateRepository.findById(employeeDTO.getPayrollTemplateId()).orElseThrow(() -> new ResourceNotFoundException("존재하지 않은 급여명세서 양식입니다"))
-                    );
-                    return employeeRepository.save(employee).toDTO();
-                });
-    }
-    public String deleteEmployee(Long id, String name,HttpServletRequest request){
-        User currentUser = userService.getCurrentUser(request);
-        if (!currentUser.equals(employeeRepository.findById(id))){
-            throw new PermissionDeniedException("본인 직원에 대한 정보만 조회가 가능합니다.");
-        }
-        Employee employee = employeeRepository.findByIdAndName(id, name);
-        employee.setIsActive(false);
-        employeeRepository.save(employee);
-        return  "정상 삭제되었습니다";
-    }
+//    public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO,HttpServletRequest request) {
+//        return employeeRepository.findById(employeeDTO.getId())
+//                .map((employee) -> {
+//                    return employeeRepository.save(employee).toDTO();
+//                })
+//                .orElseGet(() -> {
+//                    Employee employee = new Employee(
+//                            null,
+//                            employeeDTO.getName(),
+//                            employeeDTO.getDepartment(),
+//                            employeeDTO.getPosition(),
+//                            employeeDTO.getHireDate(),
+//                            employeeDTO.getPhoneNumber(),
+//                            true,
+//                            userRepository.findById(employeeDTO.getUserName()).orElseThrow(() -> new ResourceNotFoundException("유저ID 오류")),
+//                            payrollTemplateRepository.findById(employeeDTO.getPayrollTemplateId()).orElseThrow(() -> new ResourceNotFoundException("존재하지 않은 급여명세서 양식입니다"))
+//                    );
+//                    return employeeRepository.save(employee).toDTO();
+//                });
+//    }
+//
+//    public String deleteEmployee(Long id, String name,HttpServletRequest request){
+//        User currentUser = userService.getCurrentUser(request);
+//        if (!currentUser.equals(employeeRepository.findById(id))){
+//            throw new PermissionDeniedException("본인 직원에 대한 정보만 조회가 가능합니다.");
+//        }
+//        Employee employee = employeeRepository.findByIdAndName(id, name);
+//        employee.setIsActive(false);
+//        employeeRepository.save(employee);
+//        return  "정상 삭제되었습니다";
+//    }
 }
