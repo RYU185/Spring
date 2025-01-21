@@ -1,7 +1,7 @@
 package com.dw.dynamic.controller;
 
 import com.dw.dynamic.DTO.EmployeeDTO;
-import com.dw.dynamic.model.Employee;
+import com.dw.dynamic.DTO.SaveEmployeeWithTemplateDTO;
 import com.dw.dynamic.service.EmployeeService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<EmployeeDTO> getEmployeeById(Long id,HttpServletRequest request) {
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id,HttpServletRequest request) {
         return new ResponseEntity<>(
                 employeeService.getEmployeeById(id, request),
                 HttpStatus.OK);
@@ -52,16 +52,23 @@ public class EmployeeController {
                 HttpStatus.OK);
     }
 
-//    @PostMapping("/save")
-//    public ResponseEntity<EmployeeDTO> saveEmployee(@RequestBody EmployeeDTO employeeDTO,HttpServletRequest request) {
-//        return new ResponseEntity<>(
-//                employeeService.saveEmployee(employeeDTO,request),
-//                HttpStatus.OK);
-//    }
-//    @PostMapping("/delete")
-//    public ResponseEntity<String>deleteEmployee(@RequestParam Long id, @RequestParam String name,HttpServletRequest request) {
-//        return new ResponseEntity<>(
-//                employeeService.deleteEmployee(id,name,request),
-//                HttpStatus.OK);
-//    }
+    @PostMapping("/save")
+    public ResponseEntity<SaveEmployeeWithTemplateDTO> saveEmployee(@RequestBody SaveEmployeeWithTemplateDTO saveEmployeeWithTemplateDTO,HttpServletRequest request) {
+        return new ResponseEntity<>(
+                employeeService.saveEmployee(saveEmployeeWithTemplateDTO,request),
+                HttpStatus.OK);
+    }
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<String>deleteEmployee(@PathVariable Long id,HttpServletRequest request) {
+        return new ResponseEntity<>(
+                employeeService.deleteEmployee(id,request),
+                HttpStatus.OK);
+    }
+    @PostMapping("/use/free-payrolltemplate")
+    public ResponseEntity<SaveEmployeeWithTemplateDTO> saveFreePayrollTemplate(@RequestBody SaveEmployeeWithTemplateDTO saveEmployeeWithTemplateDTO, HttpServletRequest request){
+        return new ResponseEntity<>(
+                employeeService.saveFreePayrollTemplate(saveEmployeeWithTemplateDTO,request),
+                HttpStatus.OK
+        );
+    }
 }

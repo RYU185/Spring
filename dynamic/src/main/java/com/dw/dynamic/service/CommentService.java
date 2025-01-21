@@ -92,6 +92,6 @@ public class CommentService {
         }
         comment.setIsActive(false);
         commentRepository.save(comment);
-        return "게시판이 정상 삭제되었습니다";
+        return "댓글이 정상 삭제되었습니다";
     }
 }

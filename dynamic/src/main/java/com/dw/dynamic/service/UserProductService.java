@@ -1,20 +1,22 @@
 package com.dw.dynamic.service;
 
-import com.dw.dynamic.DTO.UserDTO;
+import com.dw.dynamic.DTO.CartDTO;
+import com.dw.dynamic.DTO.PurchaseHistoryDTO;
 import com.dw.dynamic.DTO.UserProductDTO;
 import com.dw.dynamic.exception.InvalidRequestException;
+import com.dw.dynamic.exception.PermissionDeniedException;
 import com.dw.dynamic.exception.ResourceNotFoundException;
-import com.dw.dynamic.model.Product;
-import com.dw.dynamic.model.User;
-import com.dw.dynamic.model.UserProduct;
-import com.dw.dynamic.repository.ProductRepository;
+import com.dw.dynamic.model.*;
+import com.dw.dynamic.repository.CartRepository;
 import com.dw.dynamic.repository.PurchaseHistoryRepository;
 import com.dw.dynamic.repository.UserProductRepository;
 import com.dw.dynamic.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,6 +25,8 @@ public class UserProductService {
     UserProductRepository userProductRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    PurchaseHistoryService purchaseHistoryService;
 
 
     public List<UserProductDTO> getAllUserProducts (HttpServletRequest request){
@@ -34,46 +38,61 @@ public class UserProductService {
 
     }
 
-        public UserProductDTO getUserProductById(Long id, HttpServletRequest request) {
-            User currentUser = userService.getCurrentUser(request);
-            if (currentUser == null) {
-                throw new IllegalArgumentException("올바르지 않은 접근입니다.");
-            }
-            UserProduct userProduct = userProductRepository.findById(id)
-                    .orElseThrow(()-> new IllegalArgumentException("올바르지 않은 접근입니다."));
+    public UserProductDTO getUserProductById(Long id, HttpServletRequest request) {
+        User currentUser = userService.getCurrentUser(request);
+        if (currentUser == null) {
+            throw new IllegalArgumentException("올바르지 않은 접근입니다.");
+        }
+        UserProduct userProduct = userProductRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("올바르지 않은 접근입니다."));
 
-            if (!userProduct.getUser().equals(currentUser)) {
-                throw new InvalidRequestException("정상적인 요청이 아닙니다");
-            }
+        if (!userProduct.getUser().getUserName().equals(currentUser.getUserName())) {
+            throw new PermissionDeniedException("해당 유저제품ID로 존재하는 내역이 없습니다");
+        }
 
-            return userProductRepository.findById(id).map(UserProduct::toDTO)
-                    .orElseThrow(()-> new ResourceNotFoundException("존재하는 ID가 없습니다"));
+        return userProductRepository.findById(id).map(UserProduct::toDTO)
+                .orElseThrow(()-> new ResourceNotFoundException("존재하는 ID가 없습니다"));
     }
 
-    public List<UserProductDTO> getUserProductByProductId(String productId, HttpServletRequest request){
+    public UserProductDTO getUserProductByProductId(String productId, HttpServletRequest request){
         User currentUser = userService.getCurrentUser(request);
         if (currentUser == null){
             throw new IllegalArgumentException("올바르지 않은 접근입니다");
         }
-        List<UserProduct> userProduct = userProductRepository.findByProductId(currentUser,productId).stream().toList();
-
-
-        if (userProduct.isEmpty()){
-            throw new IllegalArgumentException("해당 제품을 찾을 수 없습니다");
+        UserProduct userProduct = userProductRepository.findByProductId(productId);
+        if (userProduct==null){
+            throw new ResourceNotFoundException("해당 제품을 찾을 수 없습니다");
         }
-
-        List<UserProduct> userProducts = userProductRepository.findByProductId(currentUser, productId);
-        return userProducts.stream().map(UserProduct::toDTO).toList();
+        if (!userProduct.getUser().getUserName().equals(currentUser.getUserName())){
+            throw new PermissionDeniedException("해당 제품ID로 존재하는 내역이 없습니다 ");
+        }
+        return userProduct.toDTO();
     }
 
     public List<UserProductDTO> getUserProductByProductName(String productName, HttpServletRequest request){
-       User currentUser = userService.getCurrentUser(request);
+        User currentUser = userService.getCurrentUser(request);
         if (currentUser == null){
             throw new IllegalArgumentException("올바르지 않은 접근입니다");
         }
 
-        List<UserProduct> userProducts = userProductRepository.findByProductNameLike(currentUser, productName);
+        List<UserProduct> userProducts = userProductRepository.findByProductNameLike(currentUser.getUserName(), productName);
 
         return userProducts.stream().map(UserProduct::toDTO).toList();
+    }
+
+    @Transactional
+    public String expireUserProduct(HttpServletRequest request) {
+        User currentUser = userService.getCurrentUser(request);
+        if (!currentUser.getAuthority().getAuthorityName().equals("ADMIN")){
+            throw new InvalidRequestException("권한이 없습니다");
+        }
+
+        LocalDate expireDate = LocalDate.now();
+
+        List<UserProduct> expiredProducts = userProductRepository.findExpiredProducts(expireDate);
+
+        userProductRepository.deleteAll(expiredProducts);
+
+        return "만료된 구독권이 정상적으로 삭제되었습니다.";
     }
 }
