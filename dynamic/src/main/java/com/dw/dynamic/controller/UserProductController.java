@@ -30,6 +30,14 @@ UserProductController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/product-id/{productId}")
+    public ResponseEntity<List<UserProductDTO>> getUserProductByProductId(@PathVariable String productId, HttpServletRequest request){
+        return new ResponseEntity<>(
+                userProductService.getUserProductByProductId(productId, request),
+                HttpStatus.OK
+        );
+    }
+
     @GetMapping("/product-name/{productName}")
     public ResponseEntity<List<UserProductDTO>> getUserProductByProductName(@PathVariable String productName, HttpServletRequest request) {
         return new ResponseEntity<>(
