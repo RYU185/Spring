@@ -125,7 +125,6 @@ public class UserService {
     }
 
     public String getIdByEmail(String email) { // 이메일로 통하여 아이디 찾기
-
         User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new ResourceNotFoundException("존재하지 않는 이메일입니다");
@@ -159,7 +158,6 @@ public class UserService {
         if (currentUser == null){
             throw new IllegalArgumentException("올바르지 않은 접근입니다");
         }
-
         //이름, 이메일, 전화번호 이외는 수정이 불가능
         if (userDTO.getRealName() !=null){
             currentUser.setRealName(userDTO.getRealName());
