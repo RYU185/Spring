@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.dw.dynamic.exception.InvalidRequestException;
 import com.dw.dynamic.exception.ResourceNotFoundException;
 
+import java.lang.invoke.CallSite;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,7 +93,7 @@ public class UserService {
         if (users.isEmpty()) {
             throw new ResourceNotFoundException("존재하지 않는 ID입니다.");
         }
-        return userRepository.findById(id).map(User::toDTO).orElseThrow(() -> new ResourceNotFoundException("유저를 찾을 수 없습니다"));
+        return users.map(User::toDTO).orElseThrow(() -> new ResourceNotFoundException("유저를 찾을 수 없습니다"));
     }
 
     public List<UserDTO> getUserByRealName(String realName, HttpServletRequest request) {
@@ -120,32 +121,33 @@ public class UserService {
         if (users.isEmpty()) {
             throw new ResourceNotFoundException("에러발생 : 기존 사업자 여부를 양식에 맞게 입력해주세요");
         }
-        return userRepository.findUserByExistBusinessOperator(existBusinessOperator)
-                .stream().map(User::toDTO).toList();
+        return users.stream().map(User::toDTO).toList();
     }
 
-    public String getIdByEmail(String email) { // 이메일로 통하여 아이디 찾기
+    public List<String> getIdByEmail(String email) { // 이메일로 통하여 아이디 찾기
+
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new ResourceNotFoundException("존재하지 않는 이메일입니다");
+            throw new ResourceNotFoundException("해당 이메일로 가입한 아이디가 없습니다.");
         }
-        return "아이디는 "+ user.getUserName()+" 입니다.";
+        List<String> userNameList = userRepository.findByUserName(email).stream().map(User::getUserName).toList();
+        return userNameList;
     }
 
     public String ModifyPw(PasswordDTO passwordDTO, HttpServletRequest request) {
         User currentUser = getCurrentUser(request);
         if (currentUser == null){
-            throw new IllegalArgumentException("올바르지 않은 접근입니다");
+            throw new InvalidRequestException("올바르지 않은 접근입니다");
         }
         if (passwordDTO.getCurrentPassword() == null) {
-            throw new IllegalArgumentException("현재 비밀번호를 입력해 주세요.");
+            throw new InvalidRequestException("현재 비밀번호를 입력해 주세요.");
         }
         if (!passwordEncoder.matches(passwordDTO.getCurrentPassword(), currentUser.getPassword())) {
-            throw new IllegalArgumentException("현재 비밀번호가 올바르지 않습니다.");
+            throw new PermissionDeniedException("현재 비밀번호가 올바르지 않습니다.");
         }
 
         if (!passwordDTO.getNewPassword().equals(passwordDTO.getConfirmNewPassword())){
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+            throw new PermissionDeniedException("비밀번호가 일치하지 않습니다");
         }
 
         currentUser.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
@@ -170,90 +172,103 @@ public class UserService {
         }
 
         if (userDTO.getUserName() !=null){
-            throw new IllegalArgumentException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
+            throw new InvalidRequestException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
         }
         if (userDTO.getRole() !=null){
-            throw new IllegalArgumentException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
+            throw new InvalidRequestException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
         }
         if (userDTO.getPassword() !=null){
-            throw new IllegalArgumentException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
+            throw new InvalidRequestException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
         }
         if (userDTO.getGender() !=null){
-            throw new IllegalArgumentException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
+            throw new InvalidRequestException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
         }
         if (userDTO.getPoint() != 0){
-            throw new IllegalArgumentException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
+            throw new InvalidRequestException("이름, 이메일, 전화번호 외에는 수정할 수 없습니다.");
         }
         if (userDTO.getBusinessNumber() !=null){
-            throw new IllegalArgumentException("사업자 등록 번호 등록/수정을 이용해주세요");
+            throw new InvalidRequestException("사업자 등록 번호 등록/수정을 이용해주세요");
         }
         if (userDTO.getBusinessType() !=null){
-            throw new IllegalArgumentException("사업자 등록 번호 등록/수정을 이용해주세요");
+            throw new InvalidRequestException("사업자 등록 번호 등록/수정을 이용해주세요");
         }
         if (userDTO.getCompanyName() !=null){
-            throw new IllegalArgumentException("사업자 등록 번호 등록/수정을 이용해주세요");
+            throw new InvalidRequestException("사업자 등록 번호 등록/수정을 이용해주세요");
         }
 
         return userRepository.save(currentUser).toDTO();
     }
 
-    public UserDTO saveUserBusinessNumber(UserDTO userDTO, HttpServletRequest request){ // 사업자번호 등록
+    public UserDTO saveUserBusinessNumber(UserDTO userDTO, HttpServletRequest request) { // 사업자번호 등록
         User currentUser = getCurrentUser(request);
-        if (currentUser == null){
-            throw new IllegalArgumentException("올바르지 않은 접근입니다");
+        if (currentUser == null) {
+            throw new InvalidRequestException("올바르지 않은 접근입니다");
         }
 
-        if (userDTO.getRealName() !=null){
-            throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
+        if (userDTO.getRealName() != null) {
+            throw new PermissionDeniedException("회원 정보 수정을 이용해 주세요.");
         }
-        if (userDTO.getEmail()!=null){
-            throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
+        if (userDTO.getEmail() != null) {
+            throw new PermissionDeniedException("회원 정보 수정을 이용해 주세요.");
         }
-        if (userDTO.getPhoneNumber()!=null){
-            throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
-        }
-
-        if (userDTO.getUserName() !=null){
-            throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
-        }
-        if (userDTO.getRole() !=null){
-            throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
-        }
-        if (userDTO.getPassword() !=null){
-            throw new IllegalArgumentException("회원 정보 수정을 이용해 주세요.");
-        }
-        if (userDTO.getGender() !=null){
-            throw new IllegalArgumentException("성별은 수정할 수 없습니다.");
-        }
-        if (userDTO.getPoint() != 0){
-            throw new IllegalArgumentException("포인트는 수정할 수 없습니다.");
+        if (userDTO.getPhoneNumber() != null) {
+            throw new PermissionDeniedException("회원 정보 수정을 이용해 주세요.");
         }
 
-        if (userDTO.getBusinessNumber() !=null){
-            currentUser.setBusinessNumber(userDTO.getBusinessNumber());
+        if (userDTO.getUserName() != null) {
+            throw new PermissionDeniedException("회원 정보 수정을 이용해 주세요.");
         }
-        if (userDTO.getBusinessType() !=null){
-            currentUser.setBusinessType(userDTO.getBusinessType());
+        if (userDTO.getRole() != null) {
+            throw new PermissionDeniedException("회원 정보 수정을 이용해 주세요.");
         }
-        if (userDTO.getCompanyName() !=null){
-            currentUser.setCompanyName(userDTO.getCompanyName());
+        if (userDTO.getPassword() != null) {
+            throw new PermissionDeniedException("회원 정보 수정을 이용해 주세요.");
+        }
+        if (userDTO.getGender() != null) {
+            throw new PermissionDeniedException("성별은 수정할 수 없습니다.");
+        }
+        if (userDTO.getPoint() != 0) {
+            throw new PermissionDeniedException("포인트는 수정할 수 없습니다.");
         }
 
+        if (currentUser.getExistBusinessOperator()) {
+            if (userDTO.getBusinessNumber() != null) { // 기존 사업자
+                throw new PermissionDeniedException("기존 사업자는 사업자 번호를 변경하실 수 없습니다");
+            }
+            if (userDTO.getCompanyName() != null) {
+                currentUser.setCompanyName(userDTO.getCompanyName());
+            }
+            if (userDTO.getBusinessType() != null) {
+                currentUser.setBusinessType(userDTO.getBusinessType());
+            }
+        } else {
+            if (userDTO.getBusinessNumber() != null) { // 신규 사업자 등록
+                currentUser.setBusinessNumber(userDTO.getBusinessNumber());
+                currentUser.setExistBusinessOperator(true);
+            }
+            if (userDTO.getBusinessType() != null) {
+                currentUser.setBusinessType(userDTO.getBusinessType());
+            }
+            if (userDTO.getCompanyName() != null) {
+                currentUser.setCompanyName(userDTO.getCompanyName());
+            }
+        }
         return userRepository.save(currentUser).toDTO();
     }
+
 
     public UserDTO addPoint(UserDTO userDTO, HttpServletRequest request) {
         User currentUser = getCurrentUser(request);
 
         if (userDTO.getUserName() == null) {
-            throw new IllegalArgumentException("정상적인 요청이 아닙니다");
+            throw new InvalidRequestException("정상적인 요청이 아닙니다");
         }
 
         User pointUser = userRepository.findByUserName(userDTO.getUserName())
                 .orElseThrow(()->new ResourceNotFoundException("해당 유저를 찾을 수 없습니다"));
 
         if (!currentUser.getUserName().equals(pointUser.getUserName())){
-            throw new IllegalArgumentException("포인트는 자신의 계정에서만 사용할 수 있습니다.");
+            throw new PermissionDeniedException("포인트는 자신의 계정에서만 사용할 수 있습니다.");
         }
 
         pointUser.setPoint(pointUser.getPoint()+userDTO.getPoint());
@@ -265,14 +280,14 @@ public class UserService {
     public UserDTO usePoint(UserDTO userDTO, HttpServletRequest request){
         User currentUser = getCurrentUser(request);
         if (userDTO.getUserName() == null || userDTO.getPoint() <= 0) {
-            throw new IllegalArgumentException("정상적인 요청이 아닙니다");
+            throw new InvalidRequestException("정상적인 요청이 아닙니다");
         }
 
         User pointUser = userRepository.findByUserName(userDTO.getUserName())
                 .orElseThrow(()->new ResourceNotFoundException("해당 유저를 찾을 수 없습니다"));
 
         if (!currentUser.getUserName().equals(pointUser.getUserName())){
-            throw new IllegalArgumentException("포인트는 자신의 계정에서만 사용할 수 있습니다.");
+            throw new PermissionDeniedException("포인트는 자신의 계정에서만 사용할 수 있습니다.");
         }
 
         pointUser.setPoint(pointUser.getPoint() - userDTO.getPoint());

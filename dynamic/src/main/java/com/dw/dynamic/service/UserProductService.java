@@ -7,10 +7,7 @@ import com.dw.dynamic.exception.InvalidRequestException;
 import com.dw.dynamic.exception.PermissionDeniedException;
 import com.dw.dynamic.exception.ResourceNotFoundException;
 import com.dw.dynamic.model.*;
-import com.dw.dynamic.repository.CartRepository;
-import com.dw.dynamic.repository.PurchaseHistoryRepository;
-import com.dw.dynamic.repository.UserProductRepository;
-import com.dw.dynamic.repository.UserRepository;
+import com.dw.dynamic.repository.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +23,7 @@ public class UserProductService {
     @Autowired
     UserService userService;
     @Autowired
-    PurchaseHistoryService purchaseHistoryService;
+    PayrollSubscriptionRepository payrollSubscriptionRepository;
 
 
     public List<UserProductDTO> getAllUserProducts (HttpServletRequest request){
@@ -65,6 +62,14 @@ public class UserProductService {
         }
         if (!userProduct.getUser().getUserName().equals(currentUser.getUserName())){
             throw new PermissionDeniedException("해당 제품ID로 존재하는 내역이 없습니다 ");
+        }
+
+        Product product = userProduct.getProduct();
+        if (product instanceof PayrollSubscription){
+            PayrollSubscription payrollSubscription = (PayrollSubscription) product;
+            if(payrollSubscription.getExpireDate().isBefore(LocalDate.now())){
+                throw new ResourceNotFoundException("구독이 만료된 제품입니다");
+            }
         }
         return userProduct.toDTO();
     }
