@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/freelancer")
-public class FreelancerController {
+public class FreeLancerController {
     @Autowired
     FreelancerService freelancerService;
 
