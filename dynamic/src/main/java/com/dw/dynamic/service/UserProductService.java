@@ -38,7 +38,7 @@ public class UserProductService {
     public UserProductDTO getUserProductById(Long id, HttpServletRequest request) {
         User currentUser = userService.getCurrentUser(request);
         if (currentUser == null) {
-            throw new IllegalArgumentException("올바르지 않은 접근입니다.");
+            throw new InvalidRequestException("올바르지 않은 접근입니다.");
         }
         UserProduct userProduct = userProductRepository.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("올바르지 않은 접근입니다."));
@@ -54,7 +54,7 @@ public class UserProductService {
     public UserProductDTO getUserProductByProductId(String productId, HttpServletRequest request){
         User currentUser = userService.getCurrentUser(request);
         if (currentUser == null){
-            throw new IllegalArgumentException("올바르지 않은 접근입니다");
+            throw new InvalidRequestException("올바르지 않은 접근입니다");
         }
         UserProduct userProduct = userProductRepository.findByProductId(productId);
         if (userProduct==null){
@@ -77,12 +77,18 @@ public class UserProductService {
     public List<UserProductDTO> getUserProductByProductName(String productName, HttpServletRequest request){
         User currentUser = userService.getCurrentUser(request);
         if (currentUser == null){
-            throw new IllegalArgumentException("올바르지 않은 접근입니다");
+            throw new PermissionDeniedException("올바르지 않은 접근입니다");
         }
 
-        List<UserProduct> userProducts = userProductRepository.findByProductNameLike(currentUser.getUserName(), productName);
+        List<UserProduct> userProduct = userProductRepository
+                .findByProductNameLike(currentUser, productName);
+        if (userProduct.isEmpty()){
+            throw new ResourceNotFoundException("검색하신 이름의 제품이 없습니다");
+        }
 
-        return userProducts.stream().map(UserProduct::toDTO).toList();
+        Product product = userProduct
+
+        return userProduct.stream().map(UserProduct::toDTO).toList();
     }
 
     @Transactional

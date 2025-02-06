@@ -22,7 +22,7 @@ public interface UserProductRepository extends JpaRepository<UserProduct,Long> {
             "left join PayrollSubscription ps on p.id = ps.id " +
             "where up.user.userName = :currentUser " +
             "and (c.title like %:productName% or ps.title like %:productName%)")
-    List<UserProduct> findByProductNameLike(String currentUser, String productName);
+    List<UserProduct> findByProductNameLike(User currentUser, String productName);
 
     @Query("select ps from UserProduct us join PayrollSubscription ps on us.product.id = ps.id ")
     List<PayrollSubscription> findPayrollSubscriptionByProduct();
