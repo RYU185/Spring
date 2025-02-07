@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -57,12 +58,20 @@ public class ProductService {
         if (!currentUser.getAuthority().getAuthorityName().equals("ADMIN")) {
             throw new PermissionDeniedException("권한이 없습니다");
         }
+        if (product.getCategory() != null) {
+            Optional<Category> category = categoryRepository.findByName(product.getCategory().getName());
+            if (category.isEmpty()){
+                throw new ResourceNotFoundException("카테고리가 존재하지 않습니다.");
+            }
+        }
+
         if (product instanceof Course) {
             Course course = (Course) product;
         } else {
             PayrollSubscription payrollSubscription = (PayrollSubscription) product;
         }
         return productRepository.save(product);
+
     }
     // 관리자 권한으로 제품 삭제
     public String deleteProduct(String id,HttpServletRequest request){

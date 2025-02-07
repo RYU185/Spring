@@ -27,7 +27,8 @@ public class CartService {
 
     public List<CartDTO> getAllCarts(HttpServletRequest request){
         User currentUser = userService.getCurrentUser(request);
-        return cartRepository.findByUser(currentUser).stream().map(Cart::toDTO).toList();
+        return cartRepository.findByUser(currentUser).stream()
+                .filter(Cart::getIsActive).map(Cart::toDTO).toList();
     }
 
     public CartDTO getCartById(Long id, HttpServletRequest request) {
@@ -36,6 +37,10 @@ public class CartService {
 
         if(!cart.getUser().equals(currentUser)){
             throw new InvalidRequestException("정상적인 요청이 아닙니다");
+        }
+
+        if (!cart.getIsActive()){
+            throw new ResourceNotFoundException("활성화되지 않은 장바구니입니다");
         }
         return cart.toDTO();
     }
