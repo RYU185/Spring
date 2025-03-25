@@ -52,6 +52,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new MyAuthenticationEntryPoint())
+                        .accessDeniedHandler(new MyAccessDeniedHandler()))
                 .addFilterBefore(
                         new JwtFilter(tokenProvider),
                         UsernamePasswordAuthenticationFilter.class)
