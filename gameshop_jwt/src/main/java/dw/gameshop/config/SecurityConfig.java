@@ -36,25 +36,20 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/*.html"),
                                 new AntPathRequestMatcher("/api/authenticate"),
                                 new AntPathRequestMatcher("/api/products/**"),
-//                                new AntPathRequestMatcher("/api/board/**"),
+                                new AntPathRequestMatcher("/api/board/all"),
                                 new AntPathRequestMatcher("/api/user/register"),
                                 new AntPathRequestMatcher("/api/game/**"),
+                                new AntPathRequestMatcher("/ws/**"),
                                 new AntPathRequestMatcher("/css/**"),
                                 new AntPathRequestMatcher("/js/**"),
                                 new AntPathRequestMatcher("/img/**"),
                                 new AntPathRequestMatcher("/mp4/**")
-                                // 위 코드는 무조건 허용
                         ).permitAll()
                         .requestMatchers("/uploads/**").denyAll()
-                        // 이거는 무조건 불가
                         .anyRequest().authenticated())
-                // 나머지는 토큰 들고와야 허용
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new MyAuthenticationEntryPoint())
-                        .accessDeniedHandler(new MyAccessDeniedHandler()))
                 .addFilterBefore(
                         new JwtFilter(tokenProvider),
                         UsernamePasswordAuthenticationFilter.class)
